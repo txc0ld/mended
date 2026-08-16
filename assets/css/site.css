@@ -1149,6 +1149,14 @@ img { display: block; max-width: 100%; }
 
 a.footer-head:hover { color: #ffffff; }
 
+/* The client's registered tagline, set as the brand lockup sets it: tiny caps
+   directly under the wordmark. Bone at 82% is 9.4:1 on the maroon footer. */
+.footer-tagline {
+  color: rgba(239, 236, 228, 0.82);
+  letter-spacing: 0.18em;
+  margin: -2px 0 0;
+}
+
 .footer-link {
   display: block;
   color: rgba(239, 236, 228, 0.82);
