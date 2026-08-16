@@ -156,8 +156,8 @@
   </nav>
   <main id="main">
     <section class="sec min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
-      <div class="wrap relative py-8 min-[900px]:py-12">
-        <div class="max-w-[1100px] relative z-[1]">
+      <div class="wrap hero-split relative py-8 min-[900px]:grid min-[900px]:grid-cols-12 min-[900px]:items-center min-[900px]:gap-8 min-[900px]:py-12">
+        <div class="max-w-[1100px] relative z-[1] min-[900px]:col-span-7">
           <div class="badge reveal">Working across Australia, Bali and Singapore</div>
           <h1 class="display t-hero mt-7 reveal" style="--d:80ms" id="home-heading">
             <span class="block">You built the studio.</span>
@@ -169,8 +169,38 @@
             <a class="btn btn-lg" href="services.html">See the services</a>
           </div>
         </div>
-        <div class="card card-sand absolute right-10 top-4 hidden min-[900px]:block" aria-hidden="true"><p class="mono mono-bold">Operator to operator</p></div>
-        <div class="card card-brand absolute right-16 bottom-0 hidden min-[900px]:block" aria-hidden="true"><p class="mono mono-bold">The whole operation</p></div>
+        <div class="hero-cycle relative hidden min-[900px]:col-span-5 min-[900px]:block reveal" style="--d:320ms">
+          <div class="card card-sand hero-cycle__sticker hero-cycle__sticker-top" aria-hidden="true"><p class="mono mono-bold">Operator to operator</p></div>
+          <div class="card card-brand hero-cycle__sticker hero-cycle__sticker-bottom" aria-hidden="true"><p class="mono mono-bold">The whole operation</p></div>
+          <svg viewBox="0 0 520 520" width="100%" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <path id="hero-cycle-text-path" d="M 260 44 A 216 216 0 1 1 259.9 44"/>
+            </defs>
+            <circle cx="260" cy="260" r="244" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="2 10"/>
+            <g class="hero-cycle__spin">
+              <text class="hero-cycle__ring-text">
+                <textPath href="#hero-cycle-text-path" startOffset="0" textLength="1357" lengthAdjust="spacing">ELEVATING YOUR WELLNESS BUSINESS &#10022; MENDED CONSULTING &#10022;</textPath>
+              </text>
+            </g>
+
+            <path d="M 190 150 C 92 188 92 332 190 370" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round"/>
+            <path d="M 330 370 C 428 332 428 188 330 150" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round"/>
+            <path d="M 205 375 L 177 353 L 174 383 Z" fill="var(--accent)"/>
+            <path d="M 315 145 L 343 167 L 346 137 Z" fill="var(--accent)"/>
+
+            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
+            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="110" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">BUSINESS</text>
+
+            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
+            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="412" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">WELLNESS</text>
+
+            <circle cx="260" cy="260" r="56" fill="var(--ink)" transform="translate(5 5)"/>
+            <circle cx="260" cy="260" r="56" fill="var(--accent)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="263" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__mark">M.</text>
+          </svg>
+        </div>
       </div>
     </section>
     <div class="marquee" aria-label="Wellness and fitness business types Mended serves">
@@ -431,7 +461,7 @@
   </main>
   <footer class="site-footer">
     <div class="wrap sec-sm">
-      <div class="grid grid-cols-1 gap-12 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-4 min-[1024px]:gap-8">
+      <div class="footer-grid">
         <div>
           <a class="footer-head" href="index.html">Mended Consulting</a>
           <!-- The client's own registered tagline, verbatim from their brand lockup. -->
@@ -460,7 +490,7 @@
           <a class="footer-link" href="wellness-business-consulting-singapore.html">Singapore</a>
         </nav>
       </div>
-      <div class="rule-thick mt-14 pt-6 flex flex-col gap-3 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+      <div class="footer-bottom">
         <p>&copy; <span data-year>2026</span> Mended Consulting.</p>
         <!-- TODO supply: Confirmed Australian Business Number. -->
         <p class="tofill">ABN [ABN]</p>

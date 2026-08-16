@@ -134,6 +134,13 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 
+/* When the hero shares its row with the cycle diagram the headline lives in a
+   seven-column cell, so the full-width scale wraps it to four lines. This
+   keeps the approved two-line lockup inside the split layout. */
+@media (min-width: 900px) {
+  .hero-split .t-hero { font-size: clamp(2.75rem, 4.9vw, 4.375rem); }
+}
+
 .t-sec {
   font-size: clamp(2rem, 4.6vw, 3.75rem);
   line-height: 0.94;
@@ -1130,6 +1137,52 @@ img { display: block; max-width: 100%; }
   border-top: var(--bw) solid var(--ink);
 }
 
+/* Footer layout lives here, not in utility strings, so all twelve pages move
+   together. Mobile is deliberately compact: the brand block spans the row and
+   the three nav columns share two columns of a tight grid. */
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 20px;
+}
+
+.footer-grid > div:first-child { grid-column: 1 / -1; }
+
+@media (min-width: 1024px) {
+  .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
+  .footer-grid > div:first-child { grid-column: auto; }
+}
+
+.footer-bottom {
+  border-top: var(--bw) solid var(--ink);
+  margin-top: 32px;
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+@media (min-width: 700px) {
+  .footer-bottom { margin-top: 56px; padding-top: 24px; }
+}
+
+/* Compact mobile footer: tighter section padding, smaller link rows, and the
+   brand description trimmed back. Sleek, not stacked. */
+@media (max-width: 699px) {
+  .site-footer .sec-sm { padding-block: 36px 20px; }
+  .site-footer .footer-link { padding: 3px 0; font-size: 0.875rem; }
+  .site-footer .footer-head { margin-bottom: 6px; }
+  .site-footer .footer-tagline { margin-bottom: 2px; }
+  .site-footer .footer-grid > div:first-child p:not(.footer-tagline) {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .site-footer .footer-bottom { font-size: 0.8125rem; }
+  .site-footer .footer-bottom .tofill { padding: 3px 8px; font-size: 0.8125rem; }
+}
+
 .site-footer .tofill { color: var(--accent); }
 
 .footer-head {
@@ -1177,4 +1230,73 @@ a.footer-head:hover { color: #ffffff; }
   body { background: #fff; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
   .card, .btn { box-shadow: none; }
+}
+
+/* ==========================================================================
+   Home hero cycle
+   ========================================================================== */
+
+.hero-cycle {
+  width: 100%;
+  max-width: 520px;
+  min-width: 0;
+  justify-self: end;
+}
+
+.hero-cycle svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero-cycle__spin {
+  animation: cycleSpin 45s linear infinite;
+  transform-origin: 260px 260px;
+}
+
+.hero-cycle__ring-text {
+  fill: var(--ink);
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hero-cycle__node-text {
+  fill: var(--ink);
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hero-cycle__mark {
+  fill: var(--paper);
+  font-family: 'Archivo', ui-sans-serif, sans-serif;
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.hero-cycle__sticker {
+  position: absolute;
+  z-index: 2;
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
+.hero-cycle__sticker-top {
+  top: 7%;
+  left: 0;
+  transform: translateX(-8px) rotate(-2deg);
+}
+
+.hero-cycle__sticker-bottom {
+  right: 0;
+  bottom: 7%;
+  transform: rotate(2deg);
+}
+
+@keyframes cycleSpin {
+  to { transform: rotate(360deg); }
 }
