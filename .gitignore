@@ -1,0 +1,14 @@
+# Superseded first design. Kept locally for reference, not shipped.
+_v1/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Tooling
+node_modules/
+.vercel
