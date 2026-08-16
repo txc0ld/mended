@@ -35,6 +35,13 @@
   --danger:     #dc2626;   /* fills and borders */
   --danger-text: #b91c1c;  /* darkened to 5.5:1 on bone for small text */
 
+  /* Text links are red so they read on every surface. No single red passes
+     AA on both bone and black, so the family carries two values:
+       --link-red       5.5:1 on bone
+       --link-red-dark  7.6:1 on black, 5.3:1 on maroon */
+  --link-red:      #b91c1c;
+  --link-red-dark: #f87171;
+
   /* The spec's --muted is 4.4:1 on cream, just under AA for body copy.
      Body text uses this slightly stronger value at 5.5:1. Same hue, no new
      colour enters the system. */
@@ -335,7 +342,7 @@ img { display: block; max-width: 100%; }
 /* Link: black text, pink underline. Per the TIDE spec, never pink text. */
 .link {
   display: inline-block;
-  color: var(--ink);
+  color: var(--link-red);
   text-decoration: none;
   font-weight: 600;
   /* vertical padding lifts a standalone text link to the 24px WCAG 2.2
@@ -348,21 +355,19 @@ img { display: block; max-width: 100%; }
 
 .link:hover { box-shadow: inset 0 -1em 0 var(--accent); color: var(--paper); }
 
-/* A maroon underline disappears on a maroon surface. On brand fills the link
-   goes bone with a sand underline; on black it goes bone with maroon banned. */
-.card-brand .link, .band-brand .link {
-  color: var(--paper);
+/* On dark surfaces (maroon fills, black fills, and the module's black hover
+   sweep) the link switches to the light red and a sand underline. The sweep
+   case is what made the Formspree link vanish: hovering the module paints it
+   black, and a link styled only for the resting surface goes black on black. */
+.card-brand .link, .band-brand .link,
+.card-ink .link, .band-ink .link,
+.module:hover .link, .module:focus-visible .link {
+  color: var(--link-red-dark);
   box-shadow: inset 0 -0.4em 0 var(--sand);
 }
-.card-brand .link:hover, .band-brand .link:hover {
-  box-shadow: inset 0 -1em 0 var(--sand);
-  color: var(--ink);
-}
-.card-ink .link, .band-ink .link {
-  color: var(--paper);
-  box-shadow: inset 0 -0.4em 0 var(--sand);
-}
-.card-ink .link:hover, .band-ink .link:hover {
+.card-brand .link:hover, .band-brand .link:hover,
+.card-ink .link:hover, .band-ink .link:hover,
+.module:hover .link:hover, .module:focus-visible .link:hover {
   box-shadow: inset 0 -1em 0 var(--sand);
   color: var(--ink);
 }
@@ -1168,18 +1173,39 @@ img { display: block; max-width: 100%; }
   .footer-bottom { margin-top: 56px; padding-top: 24px; }
 }
 
-/* Compact mobile footer: tighter section padding, smaller link rows, and the
-   brand description trimmed back. Sleek, not stacked. */
+/* Mobile footer: a different composition, not a squeezed desktop one.
+   Brand lockup, then the links as a single wrap of mono chips. The four deep
+   service anchors hide (All services covers them), the column headings hide,
+   and the descriptive paragraphs hide: on a phone the footer is a signpost,
+   not a brochure. */
 @media (max-width: 699px) {
-  .site-footer .sec-sm { padding-block: 36px 20px; }
-  .site-footer .footer-link { padding: 3px 0; font-size: 0.875rem; }
-  .site-footer .footer-head { margin-bottom: 6px; }
-  .site-footer .footer-tagline { margin-bottom: 2px; }
-  .site-footer .footer-grid > div:first-child p:not(.footer-tagline) {
-    font-size: 0.875rem;
-    line-height: 1.5;
+  .site-footer .sec-sm { padding-block: 34px 18px; }
+
+  .footer-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .footer-grid > div:first-child { width: 100%; margin-bottom: 14px; }
+  .footer-grid nav { display: contents; }
+
+  .footer-grid h2.footer-head,
+  .footer-grid .footer-link-deep,
+  .footer-grid > div:first-child p:not(.footer-tagline) { display: none; }
+
+  .footer-grid .footer-link:not(.footer-link-deep) {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 13px;
+    border: 1px solid rgba(239, 236, 228, 0.45);
+    border-radius: var(--r-full);
+    font-family: 'Space Mono', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper);
   }
-  .site-footer .footer-bottom { font-size: 0.8125rem; }
+
+  .footer-grid .footer-link:hover { border-color: var(--paper); color: #ffffff; }
+
+  .site-footer .footer-bottom { font-size: 0.8125rem; margin-top: 26px; padding-top: 14px; }
   .site-footer .footer-bottom .tofill { padding: 3px 8px; font-size: 0.8125rem; }
 }
 

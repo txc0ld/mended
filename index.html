@@ -175,6 +175,11 @@
           <svg viewBox="0 0 520 520" width="100%" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <path id="hero-cycle-text-path" d="M 260 44 A 216 216 0 1 1 259.9 44"/>
+              <!-- Arrowhead as a marker: it rides the path end and orients to the
+                   tangent automatically, so it can never sit misaligned. -->
+              <marker id="hero-cycle-arrow" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="2.4" markerHeight="2.4" orient="auto">
+                <path d="M 0 0.6 L 9.4 5 L 0 9.4 Z" fill="var(--accent)"/>
+              </marker>
             </defs>
             <circle cx="260" cy="260" r="244" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="2 10"/>
             <g class="hero-cycle__spin">
@@ -183,10 +188,8 @@
               </text>
             </g>
 
-            <path d="M 190 150 C 92 188 92 332 190 370" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round"/>
-            <path d="M 330 370 C 428 332 428 188 330 150" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round"/>
-            <path d="M 205 375 L 177 353 L 174 383 Z" fill="var(--accent)"/>
-            <path d="M 315 145 L 343 167 L 346 137 Z" fill="var(--accent)"/>
+            <path d="M 190 150 C 92 188 92 332 184 366" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="butt" marker-end="url(#hero-cycle-arrow)"/>
+            <path d="M 330 370 C 428 332 428 188 336 154" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="butt" marker-end="url(#hero-cycle-arrow)"/>
 
             <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
             <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
@@ -471,10 +474,11 @@
         </div>
         <nav aria-label="Footer services">
           <h2 class="footer-head">Services</h2>
-          <a class="footer-link" href="services.html#hiring">Hiring and team</a>
-          <a class="footer-link" href="services.html#operations">Operations and systems</a>
-          <a class="footer-link" href="services.html#sales">Sales and revenue</a>
-          <a class="footer-link" href="services.html#reset">Reset and turnaround</a>
+          <a class="footer-link" href="services.html">All services</a>
+          <a class="footer-link footer-link-deep" href="services.html#hiring">Hiring and team</a>
+          <a class="footer-link footer-link-deep" href="services.html#operations">Operations and systems</a>
+          <a class="footer-link footer-link-deep" href="services.html#sales">Sales and revenue</a>
+          <a class="footer-link footer-link-deep" href="services.html#reset">Reset and turnaround</a>
         </nav>
         <nav aria-label="Footer company links">
           <h2 class="footer-head">Company</h2>
