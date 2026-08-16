@@ -1,257 +1,214 @@
-# Mended Consulting - art direction, v2 "The Seam"
+# Mended Consulting - art direction v3, TIDE
 
-This supersedes the layout guidance in `BUILD-SPEC.md`. The client facts, copy rules,
-banned words, dash ban and no-invented-evidence rules in `BUILD-SPEC.md` all still apply.
-
----
-
-## 1. Why v1 failed
-
-Version one was a stack of rounded-rectangle cards on a dark background. Every section
-was: left-aligned headline at the same size, a lede, then a grid of bordered boxes,
-separated by a hairline. Photographs sat inside those boxes. Nothing carried the eye from
-one section to the next.
-
-That is the generic template signature. The fix is not more rules against clichés. The
-fix is actual composition.
-
-**The single most important instruction in this document: almost nothing on this page is
-a card.** If you find yourself writing a bordered, rounded container with a heading and a
-paragraph inside it, stop and rebuild that block out of type, rules, measure and space.
+Supersedes all previous art direction. The client facts, copy rules, banned words, dash
+ban and no-invented-evidence rules in `BUILD-SPEC.md` still apply in full.
 
 ---
 
-## 2. The concept
+## 1. The brief
 
-Mended repairs businesses. The page enacts that.
+Two previous designs were rejected. The first was a dark card grid, the second a dark
+editorial layout. Both read as serious and both read as generic. This one is **fun**:
+neo-brutalist, high contrast, paper cream, hot pink and caution yellow, heavy black
+outlines, hard offset shadows and a lot of motion.
 
-It **opens in the dark** (the business under pressure), and **resolves into paper** (the
-business working). The join between them is **the seam**, and it is the only ornament the
-site is allowed. In kintsugi a repair is not hidden, it becomes the most considered part
-of the object. That is the whole idea.
-
-So the page has exactly **two acts, plus a bookend**:
-
-```
-  ACT ONE    ink      the hero. one screen. cinematic.
-  ~~~~~~~~   seam     the tear, with a thread of light along it
-  ACT TWO    paper    the entire body of the page
-  ~~~~~~~~   seam-up  a straight return
-  FOOTER     ink
-```
-
-There is no third act. Do not flip a middle section back to dark for emphasis.
+**The look is playful. The words are not.** Mended sells to a gym or studio owner making a
+business decision, and the client proposal is explicit that this is not consumer wellness.
+So the visual system is loud and the copy stays plain, direct and operator to operator.
+Keep the approved copy from `_v2/`. Do not make it cute, do not add jokes, do not add
+wellness-brand language.
 
 ---
 
-## 3. The system you must build on
+## 2. The system
 
-`assets/css/site.css` is already written and is the contract. Read it fully first.
+`assets/css/site.css` is the TIDE system and is the contract. Read it fully first. Same
+for `assets/js/site.js`, which supplies every interaction listed below.
 
-Every section declares its act, and components read semantic tokens, so the same markup
-works in either:
+### The five rules
 
-```html
-<section class="act act--dark pad"> ... </section>
-<section class="act act--light pad"> ... </section>
-```
+1. Every container gets a **2px solid black border**.
+2. Depth is a **hard offset shadow**, `4px 4px 0 #000`. Never a blur, never a gradient.
+3. Backgrounds are **flat**: cream, pink, yellow or black. No gradients anywhere.
+4. Technical labels are **uppercase mono** with `0.1em` tracking. Use `.mono`.
+5. **Pink is a fill, never text on cream.** `#ff90e8` on `#f4f4f0` is 1.8:1 and fails
+   badly. Links are black with a pink underline via `.link`. To emphasise a word in a
+   headline use `.mark`, which sets it on a pink block, not `color`.
 
-**Required in `<head>`, before the stylesheet.** The reveal classes hide content until
-observed, so this guard makes the page render fully if JavaScript fails:
+### Palette
+
+`--paper #f4f4f0` · `--ink #000` · `--accent #ff90e8` · `--highlight #ffc900`
+`--success #0e8f78` · `--danger #dc2626`
+
+Yellow is for badges, stickers and open accordion headers. Pink is for the marquee, the
+primary CTA, stat bars and highlight blocks. Black is for the footer, the module sweep and
+every border.
+
+### Type
+
+Display and body: **Archivo**, 400 to 800. Headings are 800, uppercase, tracking -0.025em
+or tighter. Labels: **Space Mono**, uppercase, 0.1em tracking.
+
+Classes: `.display` + `.t-hero` / `.t-sec` / `.t-card` / `.t-sub`, then `.lede`, `.copy`,
+`.mono`.
+
+### Head block, required on every page
 
 ```html
 <script>document.documentElement.classList.add('js')</script>
 ```
+before the stylesheet. The reveal classes hide content until observed, so without this
+line a JavaScript failure blanks the page.
 
-### Type scale
+Fonts:
+```html
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+```
 
-| Class | Use |
+---
+
+## 3. Components available
+
+| Class | What it is |
 |---|---|
-| `.display .t-hero` | the hero headline only, once per site |
-| `.display .t-lead` | section openers |
-| `.display .t-row` | index rows, article titles |
-| `.display .t-sub` | sub-headings inside a block |
-| `.lede` | short intro, 46ch, sits under a lead |
-| `.copy` | body, 58ch |
-| `.label` | small mono caps. **Maximum two on the page. Zero is better.** |
-| `.numeral` | 01, 02. Real enumeration only |
-| `.pullquote` `.stat` | as named |
+| `.wrap` `.sec` | 1280px container, 112px desktop section padding |
+| `.band` `.band-pink` `.band-yellow` `.band-ink` | full-bleed colour block with top and bottom rules |
+| `.card` `.card-pink` `.card-yellow` `.card-ink` `.card-hover` | bordered box with hard shadow |
+| `.btn` `.btn-pink` `.btn-yellow` `.btn-ink` | mono uppercase button, presses down on click |
+| `.link` | black text, pink underline that fills on hover |
+| `.badge` `.dot` | yellow pill, pulsing status dot |
+| `.marquee` + `.marquee-track` + `.marquee-group` | pink scrolling bar, 28s |
+| `.modules` `.modules-2/3/4` + `.module` | grid divided by 2px black lines, black sweep on hover |
+| `.stat-num` `.stat-bar` | counter and its growing bar |
+| `.pipeline` `.pipeline-rail` `.pipeline-signal` `.pipeline-node` | the process rail with a running signal dot |
+| `.filters` `.filter` `.tile` `.tile-label` | filterable gallery |
+| `.acc` `.acc-icon` `.acc-body` | accordion, yellow header when open |
+| `.field` `.input` `.select` `.textarea` `.check` | forms |
+| `.tofill` | loud hazard-stripe placeholder |
+| `.reveal` | scroll reveal, stagger with `style="--d:120ms"` |
+| `.magnetic` | button pulls toward the cursor |
+| `data-tilt` | card tilts toward the cursor |
 
-Emphasis inside a headline is `.em` (colour) or `.em-hollow` (outline). **Never a second
-font family.** `.em-hollow` is used exactly once on the site, in the hero.
+### JavaScript hooks
 
-### Layout
-
-`.shell` container. `.pad` `.pad-lg` `.pad-sm` for vertical rhythm.
-`.offset-2` and `.offset-3` push a block right by 1/6 and 1/3 at 900px and up. **Use
-them.** Not every block starts at the same left edge. That is what makes a page feel
-composed rather than stacked.
-
-`.bleed` `.bleed-l` `.bleed-r` break the container to the viewport edge.
-`.rule` is a hairline that draws itself in.
-
-### Motion
-
-`.rise` for blocks (stagger with `style="--d:120ms"`).
-`.unmask` wraps a headline; each line is a `<span>` inside it that slides up from a mask:
-
-```html
-<h1 class="display t-hero">
-  <span class="unmask"><span>You built the studio.</span></span>
-  <span class="unmask" style="--d:110ms"><span>Now build the business.</span></span>
-</h1>
-```
-
-`.fig` on any image wrapper gives the duotone treatment and a settle-in scale.
+`[data-progress]` scroll bar · `[data-target]` counter, with optional `data-suffix`,
+`data-prefix`, `data-decimals` · `[data-gallery]` + `[data-filter]` + `[data-cat]` +
+`[data-gallery-count]` · `[data-tabs]` · `[data-accordion]` · `[data-nav-toggle]`
+`[data-nav-drawer]` `[data-nav-close]` · `[data-enquiry-form]` · `[data-year]`
 
 ---
 
-## 4. Build this composition, section by section
+## 4. Build this composition
 
-Eleven blocks. Every one has a different structure. Follow these.
+### Fixed furniture
 
-### 1. Hero. `act--dark`, `min-h-[100dvh]`
+- `<div class="scroll-progress" data-progress></div>` first in body.
+- Sticky header, 72px, cream, 2px bottom border. Wordmark is a pink `.wordmark-badge`
+  reading `MC` with the shimmer overlay and the 8 degree hover rotation, then
+  `MENDED` in Archivo 800 uppercase. Nav is mono uppercase. Header CTA is
+  `.btn .btn-pink .btn-sm` reading **Book a call**.
+- Footer is `.site-footer`, black, four columns, same links as `_v2/index.html`.
 
-Full-bleed photograph behind everything, heavily darkened by the `.act--dark .fig`
-duotone. Content anchored **low and left**, like a film title card, not centred and not
-vertically centred. There is a large area of quiet image above the type. That silence is
-the point.
+### Home page, in order
 
-- H1 `.display .t-hero`, two `.unmask` lines: `You built the studio.` /
-  `Now build the business.`
-- Set the word `studio.` in `.em-hollow` so it reads as the thing that already exists,
-  and `business.` in `.em` so it reads as the thing to be made. That is the argument of
-  the page in one line.
-- `.lede` beneath, then two CTAs: `Book a call` (`.btn .btn-fill`) and
-  `See the services` (`.btn .btn-line`).
-- Nothing else. No eyebrow. No scroll cue. No trust strip. No stats.
+1. **Hero.** Cream. A yellow `.badge` with a `.dot` reading a real status line. Then the
+   headline at `.t-hero`, uppercase, with **BUSINESS** wrapped in `.mark` so it sits on a
+   pink block. Then the `.lede`, then two buttons, `.btn .btn-pink .btn-lg .magnetic`
+   reading **Book a call** and `.btn .btn-lg` reading **See the services**. Two absolutely
+   positioned floating `.card` badges at the sides on desktop, hidden below 900px.
+   No image needed. The type and colour carry it.
 
-### 2. The seam
+2. **Marquee.** Pink band. The verticals Mended serves, separated by `✦`. One
+   `.marquee-group` in the markup, the script clones it for the seamless loop.
 
-```html
-<div class="seam" aria-hidden="true"></div>
-```
+3. **Stats.** Four `.modules-4` cells with counters.
+   **Only structurally true numbers.** 4 service areas, 3 markets, 12 verticals served,
+   1 owner it answers to. Do not invent client counts, revenue or percentages.
 
-Nothing else in this block.
+4. **Services.** `.modules .modules-2` with four `.module` cells, numbered 01 to 04, each
+   linking to its `services.html` anchor. The black sweep is the hover state.
 
-### 3. Opening statement. `act--light`, `pad-lg`
+5. **Who it is for.** The filterable gallery. Filters: All, Fitness, Studios, Recovery,
+   Retreats. Tiles are the individual verticals with `data-cat`. Include the
+   `[data-gallery-count]` live region.
 
-Type only. No image, no columns, no boxes. One `.rule` across the top, then a single
-`.display .t-lead` statement in `.offset-2`, roughly 18 to 26 words, making the
-operator-to-operator claim. Then a lot of space.
+6. **The difference.** A `.band-ink` full-bleed black section. Two columns: what most
+   consultants sell, what Mended does. White type on black, pink `.mono` labels.
 
-This is the breath after the hero. Resist adding anything to it.
+7. **How it works.** The `.pipeline`. Three stages named by verb: Diagnose, Rebuild,
+   Hand over, with `.pipeline-node` markers on the rail and the signal dot running.
 
-### 4. Who this is for. `act--light`
+8. **Markets.** Three `.card` blocks, Australia, Bali, Singapore, each with its operating
+   pressure and a `.link` to the localised page. Vary the card colours: one cream, one
+   yellow, one pink.
 
-Two columns at 900px and up, **collapsing to one below**.
+9. **Client result.** A large `.card-lg` holding a pull quote. Placeholder, `.tofill`,
+   with a TODO comment. Do not invent a testimonial.
 
-- Left: a tall `.fig` using `bleed-l` so it runs off the left edge of the viewport.
-- Right: the four sector groups as plain type. Each is a `.t-sub` name with a `.copy`
-  line of the verticals under it, separated by `.rule`, not boxed.
+10. **FAQ.** Six `.acc` accordions, questions and answers verbatim from `_v2/index.html`
+    so the `FAQPage` JSON-LD stays accurate.
 
-Groups: Fitness, Studios, Recovery, Retreats and multi-site. Content per
-`BUILD-SPEC.md` section 1.
-
-### 5. The index. `act--light`, `pad-lg`
-
-**The centrepiece.** The four service pillars as editorial rows, not cards.
-
-```html
-<div class="index" data-index>
-  <div class="index-media" data-index-media> <img …> </div>   <!-- one per row -->
-  …
-  <a class="index-row" data-index-row href="services.html#hiring">
-    <span class="numeral">01</span>
-    <h3 class="display t-row">Hiring and team</h3>
-    <p class="copy">…</p>
-    <span class="index-arrow" aria-hidden="true"><i data-lucide="arrow-up-right"></i></span>
-  </a>
-  …
-</div>
-```
-
-The CSS already handles the rule wipe, the row shift and the image cross-fade on hover.
-Give each row a distinct backing image. Rows link to the matching `services.html` anchor.
-
-A short `.t-lead` above the list. No lede paragraph, the rows carry it.
-
-### 6. The difference. `act--light`
-
-The honest competitive point. Two blocks separated by a `.rule`, set as type on rules,
-**not two cards**:
-
-- A `.t-lead` statement across the top.
-- Then `What most consultants sell` and `What Mended does`, each a `.t-sub` with a
-  `.copy` under it, in a two-column grid with a vertical `.rule` between them at desktop.
-
-### 7. How it works. `act--light`, `pad-lg`
-
-A horizontal band of three entries divided by **vertical rules**, collapsing to stacked
-rows with horizontal rules below 900px.
-
-Steps are named by verb only: `Diagnose`, `Rebuild`, `Hand over`. Each is a `.t-sub` and
-a `.copy`. **No step numbers here**, the index already uses numerals and repeating them
-makes the page feel templated.
-
-### 8. Markets. `act--light`
-
-Three tabs, `Australia` / `Bali` / `Singapore`, using `.tab-btn` and the
-`[data-tabs]` / `role="tab"` / `role="tabpanel"` contract that `site.js` wires up.
-
-Each panel is **not a bordered card**. It is: the market name at `.t-lead` scale, a
-`.copy` on the operating pressure specific to that market, and a `.link` to the localised
-page. Market content per `BUILD-SPEC.md` section 10.1 item 6.
-
-### 9. Client result. `act--light`, `pad-lg`
-
-A `.rule`, then a `.pullquote` at large scale in `.offset-2`, then the attribution, then
-a `.rule`. Enormous space around it.
-
-The client has no approved testimonial. Use `.tofill` with bracket tokens and a `TODO`
-comment above, exactly as in v1. Do not invent a quote.
-
-### 10. FAQ. `act--light`
-
-Two columns at 900px: a sticky `.t-lead` on the left, the `<details>` accordion on the
-right. Six questions, verbatim from v1 `index.html` including the answers, so the
-`FAQPage` JSON-LD stays accurate.
-
-### 11. Close, then the bookend. `act--light` then `act--dark`
-
-A centred `.t-lead` statement and a single `Book a call` CTA. Then:
-
-```html
-<div class="seam seam--up" aria-hidden="true"></div>
-<footer class="site-footer act act--dark"> … </footer>
-```
-
-The footer keeps v1's four-column structure and links.
+11. **Close.** A `.band-pink` full-bleed block, big headline, one `.btn .btn-ink .btn-lg
+    .magnetic` reading **Book a call**.
 
 ---
 
-## 5. Header
+## 4b. Asset map
 
-`.site-header` is fixed and inverts from bone to graphite as the page crosses the seam.
-`site.js` sets `data-over` by observing `.act` sections, so **every full-width band on the
-page must carry the `act` class** or the header will not know what it is sitting over.
+**Every URL below was verified to return HTTP 200.** Use these exact IDs. Do not invent
+Unsplash IDs, they will 404. Do not use picsum any more.
 
-Nav order stays: Services, Approach, Results, About, Contact, then `.nav-cta`
-`Book a call`. One line at desktop, 76px tall.
+Build the URL as:
+`https://images.unsplash.com/<ID>?w=<width>&q=75&auto=format&fit=crop`
 
----
+| Purpose | Photo ID |
+|---|---|
+| Gym floor, machines and weights | `photo-1689877020200-403d8542d95d` |
+| Gym, equipment room | `photo-1671970922029-0430d2ae122c` |
+| Gym with large windows | `photo-1757924284732-4189190321cf` |
+| Kettlebells, functional fitness | `photo-1597076537061-a6b58163aa45` |
+| Gym wall, racked equipment | `photo-1771270786606-f5a0e57db762` |
+| Reformer studio, machines and plant | `photo-1717500252297-b09508db7ceb` |
+| Pilates, equipment in use | `photo-1754258167836-6878c54e316c` |
+| Pilates, ball work | `photo-1754257319767-f844f61837e1` |
+| Modern studio, mats and windows | `photo-1761971975962-9cc397e2ba2a` |
+| Yoga studio, mats laid out | `photo-1687783615494-b4a1f1af8b58` |
+| Yoga, group class | `photo-1683056255281-e52a141924f0` |
+| Yoga, single practitioner | `photo-1506126613408-eca07ce68773` |
+| Spin or cycle room | `photo-1593079831268-3381b0db4a77` |
+| Sauna, water on the rocks | `photo-1741601274134-fa98352f1c95` |
+| Sauna, benches | `photo-1572168400468-62e1b3209d7d` |
+| Sauna, wooden room | `photo-1712659604528-b179a3634560` |
+| Recovery, hot tub | `photo-1544843776-7c98a52e08a4` |
+| Float, water surface | `photo-1517498327491-f903e1e281cd` |
+| Retreat, group session outdoors | `photo-1687875495230-96dfea96d9da` |
+| Retreat or resort, pool | `photo-1616940779493-6958fbd615fe` |
 
-## 6. Checks before you stop
+Match the photo to the thing it illustrates. A reformer studio tile gets the reformer
+photo, not a generic gym. Alt text describes the actual subject in plain language and
+never repeats keywords.
 
-- Count your bordered containers. If the answer is more than two on the whole page, you
-  have built cards again. Rebuild them as type on rules.
-- Count distinct section structures. Eleven blocks must produce at least eight genuinely
-  different structures.
-- At least three blocks must use `.offset-2` or `.offset-3`. Not everything is flush left.
-- At least two images must `bleed`.
-- `.label` appears at most twice. `.em-hollow` appears exactly once.
-- Zero em dashes and zero en dashes, including in comments, alt text and JSON-LD.
-- No invented client name, quote, logo, statistic or founder detail.
-- One `<h1>`. Headings descend in order. Canonical, description, OG tags and the JSON-LD
-  graph from v1 `index.html` all carried over.
-- The page must render fully with JavaScript disabled.
+Images live inside `.tile` in the gallery, which already applies grayscale with a colour
+return on hover. Elsewhere give them a `2px` black border and a hard shadow like any other
+container. Always set `width`, `height` and `loading="lazy"`, except the first image on the
+page which is `loading="eager" fetchpriority="high"`.
+
+## 5. Hard fails
+
+- Any em dash or en dash anywhere, including comments, alt text and JSON-LD.
+- Pink or yellow used as text colour on cream.
+- Any gradient, any blurred shadow, any container without a 2px black border.
+- Any invented client name, business name, testimonial, quote, logo, statistic or founder
+  detail. Unknowns are `[bracket tokens]` inside `.tofill` with a TODO comment above.
+- Hardcoded hex values in markup. Everything comes from the classes above.
+- More than one `<h1>`, or headings that skip a level.
+- A page that loses content with JavaScript disabled.
+- Changing the approved copy into something jokey or wellness-brand flavoured.
+
+## 6. Carried over unchanged
+
+Titles, meta descriptions, canonicals, OG tags and the JSON-LD graph from the matching
+`_v2/` file. CTA labels: **Book a call**, **See the services**, **See the results**.
+Australian English. One `<h1>`, skip link, `<main id="main">`, labels above inputs, Lucide
+is gone so any icon must be inline SVG kept to simple geometry, or omitted entirely.
+Prefer omitting. The system does not need icons.

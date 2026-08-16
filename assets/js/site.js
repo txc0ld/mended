@@ -1,24 +1,25 @@
-/* Mended Consulting - site behaviour, v2
+/* Mended Consulting - TIDE interaction layer
  *
  * Rules:
- *   - No window scroll listeners. IntersectionObserver only.
+ *   - No window scroll listeners for reveals. IntersectionObserver only.
+ *     The scroll progress bar is the one exception and it is rAF-throttled
+ *     and writes only a transform, so it never triggers layout.
  *   - Every motion path checks prefers-reduced-motion and degrades to static.
+ *   - Pointer-driven effects (magnetic, tilt) use transforms only, are gated
+ *     behind a fine-pointer query, and never touch layout properties.
  *   - Every enhancement is optional: if the markup is absent, skip it.
- *   - Content is never left invisible if JS fails: see the no-js fallback at
- *     the bottom of this file.
  */
 (function () {
   'use strict';
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* ------------------------------------------------------------------
-   * 1. Reveal: .rise, .unmask, .rule, .fig
-   * Motivation: sequences content as the reader arrives at it, which builds
-   * hierarchy on a long editorial page. Fires once, never replays.
+   * 1. Reveal on scroll
    * ---------------------------------------------------------------- */
   function initReveal() {
-    var items = document.querySelectorAll('.rise, .unmask, .rule, .fig');
+    var items = document.querySelectorAll('.reveal, .stat-bar');
     if (!items.length) return;
 
     if (reduce || !('IntersectionObserver' in window)) {
@@ -32,48 +33,206 @@
         e.target.classList.add('is-in');
         io.unobserve(e.target);
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
 
     Array.prototype.forEach.call(items, function (el) { io.observe(el); });
   }
 
   /* ------------------------------------------------------------------
-   * 2. Header: sticky state, and which act it is sitting over
-   * The header inverts from bone to graphite as the page crosses the seam.
-   * Both are driven by observers, not scroll maths.
+   * 2. Scroll progress bar
+   * Writes a transform on one fixed element, throttled to one write per
+   * frame. No layout reads inside the handler.
    * ---------------------------------------------------------------- */
-  function initHeader() {
-    var header = document.querySelector('.site-header');
-    if (!header) return;
+  function initProgress() {
+    var bar = document.querySelector('[data-progress]');
+    if (!bar) return;
 
-    // sticky state, via a sentinel at the very top of the document
-    var sentinel = document.createElement('div');
-    sentinel.setAttribute('aria-hidden', 'true');
-    sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:1px;pointer-events:none;';
-    document.body.prepend(sentinel);
+    var ticking = false;
 
-    new IntersectionObserver(function (e) {
-      header.classList.toggle('is-stuck', !e[0].isIntersecting);
-    }).observe(sentinel);
+    function update() {
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var pct = max > 0 ? Math.min(1, doc.scrollTop / max) : 0;
+      bar.style.transform = 'scaleX(' + pct + ')';
+      ticking = false;
+    }
 
-    // which act is under the header
-    var acts = document.querySelectorAll('.act');
-    if (!acts.length) return;
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }, { passive: true });
 
-    var line = header.offsetHeight / 2;
-
-    var actIo = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        header.setAttribute('data-over', e.target.classList.contains('act--light') ? 'light' : 'dark');
-      });
-    }, { rootMargin: '-' + line + 'px 0px -' + (window.innerHeight - line - 1) + 'px 0px' });
-
-    Array.prototype.forEach.call(acts, function (el) { actIo.observe(el); });
+    update();
   }
 
   /* ------------------------------------------------------------------
-   * 3. Mobile navigation
+   * 3. Counters
+   * Counts to data-target when the element enters view. Respects
+   * data-suffix and data-prefix. Reduced motion jumps straight to the value.
+   * ---------------------------------------------------------------- */
+  function initCounters() {
+    var els = document.querySelectorAll('[data-target]');
+    if (!els.length) return;
+
+    function render(el, value) {
+      var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      el.textContent = (el.getAttribute('data-prefix') || '') +
+        value.toFixed(decimals) +
+        (el.getAttribute('data-suffix') || '');
+    }
+
+    function run(el) {
+      var target = parseFloat(el.getAttribute('data-target'));
+      if (isNaN(target)) return;
+
+      if (reduce) { render(el, target); return; }
+
+      var dur = 1400;
+      var start = null;
+
+      function step(ts) {
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        // easeOutExpo, matches the system easing feel
+        var eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+        render(el, target * eased);
+        if (p < 1) window.requestAnimationFrame(step);
+        else render(el, target);
+      }
+
+      window.requestAnimationFrame(step);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(els, function (el) { run(el); });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        run(e.target);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.4 });
+
+    Array.prototype.forEach.call(els, function (el) {
+      render(el, 0);
+      io.observe(el);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 4. Magnetic buttons
+   * A light pull toward the cursor. Pointer devices only, so it never
+   * interferes with touch, and off entirely under reduced motion.
+   * ---------------------------------------------------------------- */
+  function initMagnetic() {
+    if (reduce || !finePointer) return;
+
+    document.querySelectorAll('.magnetic').forEach(function (el) {
+      var raf = null, tx = 0, ty = 0;
+
+      function apply() {
+        el.style.transform = 'translate(' + tx + 'px,' + ty + 'px)';
+        raf = null;
+      }
+
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - 0.5) * 14;
+        ty = ((e.clientY - r.top) / r.height - 0.5) * 14;
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      });
+
+      el.addEventListener('pointerleave', function () {
+        tx = 0; ty = 0;
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 5. Tilt cards
+   * ---------------------------------------------------------------- */
+  function initTilt() {
+    if (reduce || !finePointer) return;
+
+    document.querySelectorAll('[data-tilt]').forEach(function (el) {
+      var raf = null, rx = 0, ry = 0;
+
+      function apply() {
+        el.style.transform = 'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)';
+        raf = null;
+      }
+
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        ry = ((e.clientX - r.left) / r.width - 0.5) * 7;
+        rx = -((e.clientY - r.top) / r.height - 0.5) * 7;
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      });
+
+      el.addEventListener('pointerleave', function () {
+        rx = 0; ry = 0;
+        if (!raf) raf = window.requestAnimationFrame(apply);
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 6. Filterable gallery
+   * Buttons are real buttons with aria-pressed. Hiding uses the hidden
+   * attribute so screen readers agree with what is on screen.
+   * ---------------------------------------------------------------- */
+  function initFilters() {
+    document.querySelectorAll('[data-gallery]').forEach(function (gallery) {
+      var buttons = gallery.querySelectorAll('[data-filter]');
+      var tiles = gallery.querySelectorAll('[data-cat]');
+      var live = gallery.querySelector('[data-gallery-count]');
+      if (!buttons.length || !tiles.length) return;
+
+      function apply(filter) {
+        var shown = 0;
+        tiles.forEach(function (t) {
+          var match = filter === 'all' || t.getAttribute('data-cat') === filter;
+          t.hidden = !match;
+          if (match) shown++;
+        });
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === filter));
+        });
+        if (live) {
+          live.textContent = shown + (shown === 1 ? ' type shown' : ' types shown');
+        }
+      }
+
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
+      });
+
+      apply('all');
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 7. Marquee
+   * The track holds the item group twice so the -50% translate loops
+   * seamlessly. This clones the group if the markup only has one.
+   * ---------------------------------------------------------------- */
+  function initMarquee() {
+    document.querySelectorAll('.marquee-track').forEach(function (track) {
+      if (track.children.length === 1) {
+        var clone = track.firstElementChild.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+   * 8. Mobile navigation
    * ---------------------------------------------------------------- */
   function initNav() {
     var toggle = document.querySelector('[data-nav-toggle]');
@@ -111,40 +270,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 4. Index rows: cross-fade the backing image on hover
-   * Motivation: gives each service a face without putting four photographs in
-   * four boxes. Pointer only, and purely additive.
-   * ---------------------------------------------------------------- */
-  function initIndex() {
-    document.querySelectorAll('[data-index]').forEach(function (list) {
-      var rows = list.querySelectorAll('[data-index-row]');
-      var media = list.querySelectorAll('[data-index-media]');
-      if (!rows.length || !media.length) return;
-
-      function activate(i) {
-        list.classList.add('is-hovering');
-        media.forEach(function (m, j) { m.classList.toggle('is-active', i === j); });
-      }
-
-      function clear() {
-        list.classList.remove('is-hovering');
-        media.forEach(function (m) { m.classList.remove('is-active'); });
-      }
-
-      rows.forEach(function (row, i) {
-        row.addEventListener('pointerenter', function () { activate(i); });
-        row.addEventListener('focus', function () { activate(i); });
-      });
-
-      list.addEventListener('pointerleave', clear);
-      list.addEventListener('focusout', function (e) {
-        if (!list.contains(e.relatedTarget)) clear();
-      });
-    });
-  }
-
-  /* ------------------------------------------------------------------
-   * 5. Tabs
+   * 9. Tabs
    * ---------------------------------------------------------------- */
   function initTabs() {
     document.querySelectorAll('[data-tabs]').forEach(function (group) {
@@ -183,7 +309,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 6. Accordions: one open at a time within a group
+   * 10. Accordions, one open at a time per group
    * ---------------------------------------------------------------- */
   function initAccordions() {
     document.querySelectorAll('[data-accordion]').forEach(function (group) {
@@ -198,9 +324,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 7. Enquiry form
-   * Validation, then submit with explicit loading, error and success states.
-   * The endpoint lives on the form so it can be swapped without touching JS.
+   * 11. Enquiry form
    * ---------------------------------------------------------------- */
   function initForm() {
     var form = document.querySelector('[data-enquiry-form]');
@@ -297,7 +421,7 @@
   }
 
   /* ------------------------------------------------------------------
-   * 8. Odds and ends
+   * 12. Odds and ends
    * ---------------------------------------------------------------- */
   function initYear() {
     document.querySelectorAll('[data-year]').forEach(function (el) {
@@ -305,22 +429,19 @@
     });
   }
 
-  function initIcons() {
-    if (window.lucide && typeof window.lucide.createIcons === 'function') {
-      window.lucide.createIcons();
-    }
-  }
-
   function boot() {
     initReveal();
-    initHeader();
+    initProgress();
+    initCounters();
+    initMagnetic();
+    initTilt();
+    initFilters();
+    initMarquee();
     initNav();
-    initIndex();
     initTabs();
     initAccordions();
     initForm();
     initYear();
-    initIcons();
   }
 
   if (document.readyState === 'loading') {

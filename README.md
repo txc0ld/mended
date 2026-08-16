@@ -33,37 +33,48 @@ browser and it runs.
 
 ## The design in one page
 
-The site is built on a concept called **The Seam**.
+The site is built on **TIDE**, a neo-brutalist system. Paper cream background, hot pink
+and caution yellow, 2px black borders on everything, hard offset shadows instead of blurs,
+and a lot of motion. The reference point is Gumroad and retail signage rather than
+software.
 
-Mended repairs businesses, so the page enacts that. It **opens in the dark** (the business
-under pressure) and **resolves into paper** (the business working). The join between them
-is the seam, and it is the only piece of ornament the site allows itself. In kintsugi a
-repair is not hidden, it becomes the most considered part of the object.
+The look is deliberately loud. **The copy is not.** Mended sells to a gym or studio owner
+making a business decision, and the client proposal is explicit that this is not consumer
+wellness, so the writing stays plain and operator to operator while the design does the
+personality.
 
-Every page has the same arc:
+### The five rules
 
-```
-  ACT ONE    ink      hero over a full-bleed photograph
-  ~~~~~~~~   seam     a shallow tear with a thread of light along it
-  ACT TWO    paper    the body of the page
-  ~~~~~~~~   seam-up  a straight return
-  FOOTER     ink
-```
+1. Every container gets a **2px solid black border**.
+2. Depth is a **hard offset shadow**, `4px 4px 0 #000`. Never a blur.
+3. Backgrounds are **flat**: cream, pink, yellow or black. **No gradients anywhere.**
+4. Technical labels are **uppercase mono**, `0.1em` tracking. Use `.mono`.
+5. **Pink is a fill, never text on cream.** `#ff90e8` on `#f4f4f0` is 1.8:1 and fails
+   WCAG badly. Links are `.link`, black text with a pink underline. To emphasise a word in
+   a headline use `.mark`, which sets it on a pink block. Pink text on the black
+   `.band-ink` is fine and is used there for `.mono` labels.
 
-Sections declare which act they are in, and components read semantic tokens, so the same
-markup works in both:
+### The moving parts
 
-```html
-<section class="act act--dark pad"> ... </section>
-<section class="act act--light pad"> ... </section>
-```
+`site.js` supplies all of these, you only write the markup:
 
-**Every full-width band must carry the `act` class.** The fixed header inverts from bone
-to graphite by observing which act is behind it. A band without the class breaks that.
+| Hook | What it does |
+|---|---|
+| `[data-progress]` | fixed pink scroll progress bar |
+| `[data-target]` | counters that tick up when scrolled into view |
+| `.stat-bar` | the bar that grows under each counter |
+| `.marquee-track` | pink running band, cloned in JS for a seamless loop |
+| `.module` | grid cell with a black sweep on hover |
+| `.pipeline-signal` | dot tracing the process rail |
+| `[data-gallery]` `[data-filter]` `[data-cat]` | filterable vertical gallery |
+| `.magnetic` | button pulls toward the cursor |
+| `data-tilt` | card tilts toward the cursor |
+| `.reveal` | scroll reveal, stagger with `style="--d:120ms"` |
 
-**Almost nothing is a card.** Content is composed from type, rules, measure and space.
-If you add a bordered rounded box with a heading and a paragraph in it, you are undoing
-the redesign. The full rules are in `ART-DIRECTION.md`.
+Pointer effects are gated behind `(hover: hover) and (pointer: fine)` so they never fire
+on touch, and every animation is disabled under `prefers-reduced-motion`.
+
+The full rules and the page-by-page composition are in `ART-DIRECTION.md`.
 
 ---
 
@@ -108,22 +119,21 @@ and `privacy.html`. Confirm or change it in all three.
 - **Social profile URLs** for the `sameAs` array in the home page JSON-LD.
 - **Case studies**: see below.
 
-### 5. Replace the photography
+### 5. Photography
 
-Every image is a `picsum.photos` placeholder and every one has an HTML comment directly
-above it describing what the real photo should show.
+**This is no longer a blocker.** The site uses real Unsplash photography of gyms, reformer
+studios, yoga rooms, saunas, float tanks and retreats, matched to the vertical each image
+illustrates. Every URL was checked and returns HTTP 200, and Unsplash's licence allows
+commercial use without attribution, so these can ship as they are.
 
-Be aware that picsum serves a **random** photo per seed, so the subjects currently on the
-page are not wellness related and will not match their alt text. That is expected. The
-seeds are stable, so the same image returns every load, and the alt text and the comment
-above each image already describe the correct subject. Do not show the site to the client
-as final until these are swapped.
+The full list of approved photo IDs is in `ART-DIRECTION.md` section 4b. **Only use IDs
+from that table.** Invented Unsplash IDs 404, which is how placeholder images silently
+break.
 
-Images are rendered grayscale with a eucalyptus tint (`.photo` in `site.css`) so photos
-from different shoots still read as one system. That treatment will flatter real brand
-photography too. If you want full colour, remove the `filter` line from `.photo img`.
+Swap them for Mended's own photography when it exists. Gallery images are rendered
+grayscale and return to colour on hover, so mixed sources still read as one set.
 
-Also needed: `assets/img/og-default.jpg` at 1200x630 for link previews. It is referenced
+Still needed: `assets/img/og-default.jpg` at 1200x630 for link previews. It is referenced
 by every page and does not exist yet.
 
 ### 6. Apply the real brand kit
@@ -133,17 +143,19 @@ The site was built so that arriving brand does not mean a rebuild. Open
 `assets/css/site.css` and change the values in `:root` at the top:
 
 ```css
---ink:        #0b0f0d;   /* page background */
---bone:       #eceae4;   /* primary text and primary button fill */
---accent:     #4fa37f;   /* the single accent */
+--paper:     #f4f4f0;   /* page background */
+--ink:       #000000;   /* text and every border */
+--accent:    #ff90e8;   /* TIDE pink, fills only */
+--highlight: #ffc900;   /* caution yellow, badges and open accordions */
 ```
 
-Then mirror the same values in `assets/js/tailwind.config.js`. Fonts are set in one place
-per page, in the Google Fonts `<link>` in the head, and mapped in `site.css`.
+Then mirror them in `assets/js/tailwind.config.js`. Fonts are set once per page in the
+Google Fonts `<link>` and mapped in `site.css`.
 
-The interim palette is a warm near-black with a single eucalyptus accent. It was chosen
-to read as a credible business consultancy rather than consumer wellness, and to avoid
-the beige and brass palette every wellness brand already uses.
+**If you change the accent, re-check contrast.** The current pink is deliberately never
+used as text on cream because it only reaches 1.8:1. If the brand's accent is darker it
+may be safe as text, in which case `.link` can be simplified. If it is lighter, keep the
+fill-only rule.
 
 ---
 
@@ -151,18 +163,14 @@ the beige and brass palette every wellness brand already uses.
 
 If you extend the site, keep these or it will drift.
 
-- **Two acts, never three.** Dark hero, paper body, dark footer. No middle section flips
-  back to dark for emphasis.
-- **Colour lock.** One accent hue with two values, one per act: `--accent-dk` on ink,
-  `--accent-lt` on paper. Never introduce a second hue.
-- **Almost no cards.** Compose with type, rules, `.offset-2` / `.offset-3`, bleeding
-  images and space.
-- **Type.** Bricolage Grotesque for display, Geist for body, Geist Mono for numerals and
-  the rare small label. Emphasis inside a headline is `.em` (colour) or `.em-hollow`
-  (outline), never a second font family. `.em-hollow` appears once on the whole site, on
-  the word "studio." in the home page hero.
-- **Eyebrows are rationed.** `.label` appears at most twice per page. Zero is better.
-- **Tailwind for layout only.** All colour, type and surface styling comes from
+- **The five rules above are the system.** Border, hard shadow, flat colour, mono labels,
+  pink never as text on cream.
+- **Type.** Archivo for display and body, Space Mono for technical labels. Headings are
+  weight 800, uppercase, tight tracking. Emphasis inside a headline is `.mark`, a colour
+  block, never a second font family and never a colour swap.
+- **Every page gets at least one full-bleed colour band** so it does not read as one long
+  cream column. `.band-pink`, `.band-yellow` or `.band-ink`.
+- **Tailwind for layout only.** All colour, type, border and shadow styling comes from
   `site.css`. No hex values in markup.
 - **One label per intent.** Contact is always "Book a call". Services is always
   "See the services". Results is always "See the results".

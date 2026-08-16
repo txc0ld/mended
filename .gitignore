@@ -1,5 +1,6 @@
-# Superseded first design. Kept locally for reference, not shipped.
+# Superseded designs. Kept locally for reference, not shipped.
 _v1/
+_v2/
 
 # OS and editor noise
 .DS_Store

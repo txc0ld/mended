@@ -15,12 +15,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="assets/js/tailwind.config.js"></script>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="assets/css/site.css">
-<script src="https://unpkg.com/lucide@latest"></script>
 <script defer src="assets/js/site.js"></script>
 <!-- TODO supply: Official Mended Consulting social profile URLs for the sameAs array. -->
 <script type="application/ld+json">
@@ -112,14 +111,12 @@
 </script>
 </head>
 <body>
+  <div class="scroll-progress" data-progress aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header" data-over="dark">
-    <div class="shell header-inner">
+  <header class="site-header">
+    <div class="wrap header-inner">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
       <nav class="nav-desktop" aria-label="Primary navigation">
@@ -128,308 +125,317 @@
         <a class="nav-link" href="results.html">Results</a>
         <a class="nav-link" href="about.html">About</a>
         <a class="nav-link" href="contact.html">Contact</a>
-        <a class="nav-cta" href="contact.html">Book a call</a>
+        <a class="btn btn-pink btn-sm" href="contact.html">Book a call</a>
       </nav>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">
-        <span>Menu</span>
-        <i data-lucide="menu" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
     </div>
+    <noscript>
+      <nav class="wrap flex flex-wrap gap-4 py-4 min-[1024px]:hidden" aria-label="Navigation without JavaScript">
+        <a class="nav-link" href="services.html">Services</a>
+        <a class="nav-link" href="index.html#approach">Approach</a>
+        <a class="nav-link" href="results.html">Results</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+      </nav>
+    </noscript>
   </header>
   <nav class="nav-mobile" id="mobile-navigation" data-nav-drawer aria-label="Mobile navigation" aria-hidden="true">
     <div class="flex items-center justify-between gap-4 pb-6">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
-      <button class="nav-toggle" type="button" data-nav-close aria-label="Close menu">
-        <span>Close</span><i data-lucide="x" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-close>Close</button>
     </div>
-    <a class="nav-mobile-link" href="services.html"><span>Services</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="index.html#approach"><span>Approach</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="results.html"><span>Results</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="about.html"><span>About</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="contact.html"><span>Contact</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <div class="mt-auto pt-8"><a class="btn btn-fill w-full" href="contact.html">Book a call</a></div>
+    <a class="nav-mobile-link" href="services.html">Services</a>
+    <a class="nav-mobile-link" href="index.html#approach">Approach</a>
+    <a class="nav-mobile-link" href="results.html">Results</a>
+    <a class="nav-mobile-link" href="about.html">About</a>
+    <a class="nav-mobile-link" href="contact.html">Contact</a>
+    <div class="mt-auto pt-8"><a class="btn btn-pink btn-lg w-full" href="contact.html">Book a call</a></div>
   </nav>
   <main id="main">
-    <section class="act act--dark hero-scrim min-h-[100dvh] flex items-end overflow-hidden pt-28 pb-10 min-[900px]:pb-16" aria-labelledby="home-heading">
-      <div class="fig bleed absolute inset-y-0">
-        <!-- TODO replace: Owner of a boutique fitness or wellness venue standing in the quiet studio before opening. -->
-        <img src="https://picsum.photos/seed/mended-quiet-studio-owner/1920/1400" alt="Wellness business owner standing in a quiet boutique studio before opening" width="1920" height="1400" loading="eager" fetchpriority="high">
-      </div>
-      <div class="shell relative z-10">
-        <div class="max-w-[78rem]">
-          <h1 class="display t-hero" id="home-heading">
-            <span class="unmask"><span>You built the <span class="em-hollow">studio.</span></span></span>
-            <span class="unmask" style="--d:110ms"><span>Now build the <span class="em">business.</span></span></span>
+    <section class="sec min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
+      <div class="wrap relative py-8 min-[900px]:py-12">
+        <div class="max-w-[1100px] relative z-[1]">
+          <div class="badge reveal"><span class="dot" aria-hidden="true"></span>Working across Australia, Bali and Singapore</div>
+          <h1 class="display t-hero mt-7 reveal" style="--d:80ms" id="home-heading">
+            <span class="block">You built the studio.</span>
+            <span class="block">Now build the <span class="mark">business.</span></span>
           </h1>
-          <p class="lede rise mt-6" style="--d:180ms">Mended is a business consultancy for owner-operated wellness and fitness businesses across Australia, Bali and Singapore.</p>
-          <div class="flex flex-wrap gap-3 rise mt-7" style="--d:250ms">
-            <a class="btn btn-fill" href="contact.html">Book a call</a>
-            <a class="btn btn-line" href="services.html">See the services</a>
+          <p class="lede mt-7 reveal" style="--d:160ms">Mended is a business consultancy for owner-operated wellness and fitness businesses across Australia, Bali and Singapore.</p>
+          <div class="flex flex-wrap gap-4 mt-8 reveal" style="--d:240ms">
+            <a class="btn btn-pink btn-lg magnetic" href="contact.html">Book a call</a>
+            <a class="btn btn-lg" href="services.html">See the services</a>
           </div>
+        </div>
+        <div class="card card-yellow absolute right-10 top-4 hidden min-[900px]:block" aria-hidden="true"><p class="mono mono-bold">Operator to operator</p></div>
+        <div class="card card-pink absolute right-16 bottom-0 hidden min-[900px]:block" aria-hidden="true"><p class="mono mono-bold">Whole of business</p></div>
+      </div>
+    </section>
+    <div class="marquee" aria-label="Wellness and fitness business types Mended serves">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="marquee-item">Gyms</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Functional fitness</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">CrossFit boxes</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Pilates and reformer</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Yoga and barre</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Spin and cycle</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Dance fitness</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Recovery centres</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Sauna and ice bath</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Float tanks</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Health retreats</span><span class="marquee-sep" aria-hidden="true">✦</span>
+          <span class="marquee-item">Multi-site groups</span><span class="marquee-sep" aria-hidden="true">✦</span>
+        </div>
+      </div>
+    </div>
+    <section class="sec-sm" aria-labelledby="stats-heading">
+      <div class="wrap">
+        <h2 class="sr-only" id="stats-heading">Mended Consulting at a glance</h2>
+        <div class="modules modules-4">
+          <article class="module reveal">
+            <p class="stat-num"><span data-target="4">4</span></p>
+            <div class="stat-bar" aria-hidden="true"></div>
+            <p class="mono mono-bold mt-5">Service areas</p>
+          </article>
+          <article class="module reveal" style="--d:80ms">
+            <p class="stat-num"><span data-target="3">3</span></p>
+            <div class="stat-bar stat-bar-y" aria-hidden="true"></div>
+            <p class="mono mono-bold mt-5">Markets</p>
+          </article>
+          <article class="module reveal" style="--d:160ms">
+            <p class="stat-num"><span data-target="12">12</span></p>
+            <div class="stat-bar" aria-hidden="true"></div>
+            <p class="mono mono-bold mt-5">Verticals served</p>
+          </article>
+          <article class="module reveal" style="--d:240ms">
+            <p class="stat-num"><span data-target="1">1</span></p>
+            <div class="stat-bar stat-bar-y" aria-hidden="true"></div>
+            <p class="mono mono-bold mt-5">Owner it answers to</p>
+          </article>
         </div>
       </div>
     </section>
-    <div class="seam" aria-hidden="true"></div>
-    <section class="act act--light pad-lg" aria-labelledby="opening-heading">
-      <div class="shell">
-        <hr class="rule">
-        <h2 class="display t-lead offset-2 max-w-5xl mt-14 rise" id="opening-heading">Mended works operator to operator, fixing the team, systems, sales and cash pressure that keep a good wellness business dependent on its owner.</h2>
-      </div>
-    </section>
-    <section class="act act--light pad" aria-labelledby="for-heading">
-      <div class="shell grid grid-cols-1 gap-14 min-[900px]:grid-cols-12 min-[900px]:gap-16 min-[900px]:items-start">
-        <div class="fig bleed-l h-[58vh] min-h-[440px] min-[900px]:col-span-6 min-[900px]:h-[76vh] min-[900px]:min-h-[620px]">
-          <!-- TODO replace: Candid wide view of an owner and team preparing a boutique wellness venue for the day. -->
-          <img src="https://picsum.photos/seed/mended-wellness-team-opening/1200/1500" alt="Owner and team preparing a boutique wellness venue before clients arrive" width="1200" height="1500" loading="lazy">
-        </div>
-        <div class="min-[900px]:col-span-5 min-[900px]:col-start-8 rise">
-          <h2 class="display t-lead" id="for-heading">Built for the people running the place.</h2>
-          <div class="mt-12">
-            <div class="pb-7">
-              <h3 class="display t-sub">Fitness</h3>
-              <p class="copy mt-3">Gyms, functional-fitness gyms and CrossFit boxes.</p>
-            </div>
-            <hr class="rule">
-            <div class="py-7">
-              <h3 class="display t-sub">Studios</h3>
-              <p class="copy mt-3">Pilates and reformer, yoga and barre, spin and cycle, and dance fitness.</p>
-            </div>
-            <hr class="rule">
-            <div class="py-7">
-              <h3 class="display t-sub">Recovery</h3>
-              <p class="copy mt-3">Recovery centres, cryotherapy, sauna and ice bath, float tanks, and IV therapy outside WA.</p>
-            </div>
-            <hr class="rule">
-            <div class="pt-7">
-              <h3 class="display t-sub">Retreats and multi-site</h3>
-              <p class="copy mt-3">Health retreats, wellness resorts, multi-site groups and franchise operators.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="act act--light pad-lg" aria-labelledby="services-heading">
-      <div class="shell">
-        <h2 class="display t-lead offset-3 max-w-4xl rise" id="services-heading">Fix what keeps pulling you back in.</h2>
-        <div class="index mt-16" data-index>
-          <div class="index-media fig" data-index-media>
-            <!-- TODO replace: Studio manager welcoming a capable team at the start of a shift. -->
-            <img src="https://picsum.photos/seed/mended-hiring-team/1500/900" alt="Studio manager welcoming the team at the start of a shift" width="1500" height="900" loading="lazy">
-          </div>
-          <div class="index-media fig" data-index-media>
-            <!-- TODO replace: Wellness venue team using a clear opening checklist together. -->
-            <img src="https://picsum.photos/seed/mended-operating-system/1500/900" alt="Wellness venue team working through an opening checklist" width="1500" height="900" loading="lazy">
-          </div>
-          <div class="index-media fig" data-index-media>
-            <!-- TODO replace: Reception conversation between a studio team member and an existing member. -->
-            <img src="https://picsum.photos/seed/mended-member-revenue/1500/900" alt="Studio team member speaking with an existing member at reception" width="1500" height="900" loading="lazy">
-          </div>
-          <div class="index-media fig" data-index-media>
-            <!-- TODO replace: Owner reviewing the operation with clear notes during a business reset. -->
-            <img src="https://picsum.photos/seed/mended-business-reset/1500/900" alt="Wellness business owner reviewing operating notes during a reset" width="1500" height="900" loading="lazy">
-          </div>
-          <a class="index-row" data-index-row href="services.html#hiring">
-            <span class="numeral">01</span>
-            <h3 class="display t-row">Hiring and team</h3>
-            <p class="copy">Find, onboard and keep good people. Build a team that can handle the day without waiting for you.</p>
-            <span class="index-arrow" aria-hidden="true"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+    <section class="sec" aria-labelledby="services-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="services-heading">Fix what keeps pulling you back in.</h2>
+        <div class="modules modules-2 mt-12">
+          <a class="module reveal" href="services.html#hiring">
+            <span class="module-num">01</span>
+            <h3 class="display t-card mt-8">Hiring and team</h3>
+            <p class="copy mt-4">Find, onboard and keep good people. Build a team that can handle the day without waiting for you.</p>
+            <span class="module-arrow">Hiring work<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
           </a>
-          <a class="index-row" data-index-row href="services.html#operations">
-            <span class="numeral">02</span>
-            <h3 class="display t-row">Operations and systems</h3>
-            <p class="copy">Put clear responsibilities, useful tools and a weekly operating rhythm in place so the business can run without you in the room.</p>
-            <span class="index-arrow" aria-hidden="true"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+          <a class="module reveal" style="--d:80ms" href="services.html#operations">
+            <span class="module-num">02</span>
+            <h3 class="display t-card mt-8">Operations and systems</h3>
+            <p class="copy mt-4">Put clear responsibilities, useful tools and a weekly operating rhythm in place so the business can run without you in the room.</p>
+            <span class="module-arrow">Systems work<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
           </a>
-          <a class="index-row" data-index-row href="services.html#sales">
-            <span class="numeral">03</span>
-            <h3 class="display t-row">Sales and revenue</h3>
-            <p class="copy">Tighten memberships, packages, pricing and retention before spending more on new leads.</p>
-            <span class="index-arrow" aria-hidden="true"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+          <a class="module reveal" style="--d:160ms" href="services.html#sales">
+            <span class="module-num">03</span>
+            <h3 class="display t-card mt-8">Sales and revenue</h3>
+            <p class="copy mt-4">Tighten memberships, packages, pricing and retention before spending more on new leads.</p>
+            <span class="module-arrow">Revenue work<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
           </a>
-          <a class="index-row" data-index-row href="services.html#reset">
-            <span class="numeral">04</span>
-            <h3 class="display t-row">Reset and crisis turnaround</h3>
-            <p class="copy">Stabilise the losses, find what is leaking members or cash, and rebuild in the right order.</p>
-            <span class="index-arrow" aria-hidden="true"><i data-lucide="arrow-up-right" aria-hidden="true"></i></span>
+          <a class="module reveal" style="--d:240ms" href="services.html#reset">
+            <span class="module-num">04</span>
+            <h3 class="display t-card mt-8">Reset and crisis turnaround</h3>
+            <p class="copy mt-4">Stabilise the losses, find what is leaking members or cash, and rebuild in the right order.</p>
+            <span class="module-arrow">Reset work<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
           </a>
         </div>
       </div>
     </section>
-    <section class="act act--light pad" aria-labelledby="difference-heading">
-      <div class="shell">
-        <h2 class="display t-lead max-w-6xl rise" id="difference-heading">Your business is not a lead problem with a timetable attached.</h2>
-        <hr class="rule mt-14">
-        <div class="grid grid-cols-1 gap-8 py-12 min-[900px]:grid-cols-[1fr_auto_1fr] min-[900px]:gap-14">
-          <article class="rise">
-            <h3 class="display t-sub">What most consultants sell</h3>
-            <p class="copy mt-5">Most consultants in this space sell one of two things: marketing and leads, or gym-specific operating playbooks. Either can help. Neither sees the full operation.</p>
-          </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="rise" style="--d:110ms">
-            <h3 class="display t-sub">What Mended does</h3>
-            <p class="copy mt-5">Mended works on the whole business, and has run one. Team, systems, sales and cash pressure are treated as connected problems, not separate projects.</p>
-          </article>
+    <section class="sec" aria-labelledby="gallery-heading">
+      <div class="wrap" data-gallery>
+        <h2 class="display t-sec max-w-4xl reveal" id="gallery-heading">Built for the people running the place.</h2>
+        <p class="copy mt-5 reveal" style="--d:80ms">Mended works with boutique, physical-location wellness and fitness businesses.</p>
+        <div class="filters mt-8 reveal" style="--d:120ms" role="group" aria-label="Filter business types">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="fitness" aria-pressed="false">Fitness</button>
+          <button class="filter" type="button" data-filter="studios" aria-pressed="false">Studios</button>
+          <button class="filter" type="button" data-filter="recovery" aria-pressed="false">Recovery</button>
+          <button class="filter" type="button" data-filter="retreats" aria-pressed="false">Retreats</button>
         </div>
-        <hr class="rule">
-      </div>
-    </section>
-    <section class="act act--light pad-lg" id="approach" aria-labelledby="process-heading">
-      <div class="shell">
-        <h2 class="display t-lead offset-2 max-w-5xl rise" id="process-heading">Work out what is wrong. Fix it. Leave it usable.</h2>
-        <div class="grid grid-cols-1 gap-0 mt-16 min-[900px]:grid-cols-[1fr_auto_1fr_auto_1fr]">
-          <article class="py-8 min-[900px]:py-0 min-[900px]:pr-10 rise">
-            <h3 class="display t-sub">Diagnose</h3>
-            <p class="copy mt-5">Look at the numbers, roles, member experience and daily operation. Separate the visible symptom from the constraint underneath it.</p>
+        <p class="badge badge-paper mt-5" data-gallery-count aria-live="polite">12 types shown</p>
+        <div class="grid grid-cols-1 gap-6 mt-10 min-[620px]:grid-cols-2 min-[1024px]:grid-cols-3">
+          <article class="tile reveal" data-cat="fitness" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1689877020200-403d8542d95d?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Gym floor with strength machines and free weights" width="900" height="675" loading="eager" fetchpriority="high">
+            <div class="tile-label"><h3 class="display t-sub">Gyms</h3></div>
           </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="py-8 min-[900px]:px-10 rise" style="--d:90ms">
-            <h3 class="display t-sub">Rebuild</h3>
-            <p class="copy mt-5">Change the process, offer, responsibility or management rhythm causing the drag. Put the new way of working into the week, not just on paper.</p>
+          <article class="tile reveal" style="--d:60ms" data-cat="fitness" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1597076537061-a6b58163aa45?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Rows of kettlebells in a functional fitness space" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Functional fitness</h3></div>
           </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="py-8 min-[900px]:py-0 min-[900px]:pl-10 rise" style="--d:180ms">
-            <h3 class="display t-sub">Hand over</h3>
-            <p class="copy mt-5">Give the team the tools, measures and decision rights to keep it running. The owner should not become the system again.</p>
+          <article class="tile reveal" style="--d:120ms" data-cat="fitness" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1771270786606-f5a0e57db762?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Racked training equipment along a gym wall" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">CrossFit boxes</h3></div>
           </article>
-        </div>
-      </div>
-    </section>
-    <section class="act act--light pad" aria-labelledby="markets-heading">
-      <div class="shell">
-        <div class="offset-3 max-w-4xl" data-tabs>
-          <h2 class="display t-lead rise" id="markets-heading">Three markets. Different operating pressure.</h2>
-          <div class="flex gap-3 overflow-x-auto mt-10 pb-2" role="tablist" aria-label="Markets">
-            <button class="tab-btn" type="button" role="tab" id="tab-australia" aria-selected="true" aria-controls="panel-australia">Australia</button>
-            <button class="tab-btn" type="button" role="tab" id="tab-bali" aria-selected="false" aria-controls="panel-bali" tabindex="-1">Bali</button>
-            <button class="tab-btn" type="button" role="tab" id="tab-singapore" aria-selected="false" aria-controls="panel-singapore" tabindex="-1">Singapore</button>
-          </div>
-          <div class="pt-14 rise" id="panel-australia" role="tabpanel" aria-labelledby="tab-australia">
-            <h3 class="display t-lead">Australia</h3>
-            <p class="copy mt-6">On the East Coast, boutique fitness is crowded and price comparison is easy. Margins stay thin when the owner still covers delivery, sales and every staffing gap.</p>
-            <a class="link mt-7" href="wellness-business-consulting-australia.html">Wellness business consulting in Australia</a>
-          </div>
-          <div class="pt-14 rise" id="panel-bali" role="tabpanel" aria-labelledby="tab-bali">
-            <h3 class="display t-lead">Bali</h3>
-            <p class="copy mt-6">Retreat and expat operators face seasonal demand, staffing pressure and management at distance. Multi-site and franchise plans expose weak systems quickly.</p>
-            <a class="link mt-7" href="wellness-business-consulting-bali.html">Wellness business consulting in Bali</a>
-          </div>
-          <div class="pt-14 rise" id="panel-singapore" role="tabpanel" aria-labelledby="tab-singapore">
-            <h3 class="display t-lead">Singapore</h3>
-            <p class="copy mt-6">Regulation, leasing and high fixed costs leave little room for a vague offer. Premium positioning has to be backed by tight delivery, retention and pricing.</p>
-            <a class="link mt-7" href="wellness-business-consulting-singapore.html">Wellness business consulting in Singapore</a>
-          </div>
+          <article class="tile reveal" data-cat="studios" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1717500252297-b09508db7ceb?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Reformer studio with Pilates machines and a large plant" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Pilates and reformer</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:60ms" data-cat="studios" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1687783615494-b4a1f1af8b58?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Yoga studio with mats arranged for a class" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Yoga and barre</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:120ms" data-cat="studios" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Indoor cycle room lined with stationary bikes" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Spin and cycle</h3></div>
+          </article>
+          <article class="tile reveal" data-cat="studios" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1761971975962-9cc397e2ba2a?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Modern movement studio with mats and large windows" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Dance fitness</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:60ms" data-cat="recovery" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1544843776-7c98a52e08a4?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Hot tub prepared for a recovery session" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Recovery centres</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:120ms" data-cat="recovery" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1572168400468-62e1b3209d7d?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Timber benches inside a sauna room" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Sauna and ice bath</h3></div>
+          </article>
+          <article class="tile reveal" data-cat="recovery" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1517498327491-f903e1e281cd?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Calm water surface inside a float setting" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Float tanks</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:60ms" data-cat="retreats" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1687875495230-96dfea96d9da?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Small group taking part in an outdoor retreat session" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Health retreats</h3></div>
+          </article>
+          <article class="tile reveal" style="--d:120ms" data-cat="retreats" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1616940779493-6958fbd615fe?w=900&amp;q=75&amp;auto=format&amp;fit=crop" alt="Resort pool surrounded by tropical greenery" width="900" height="675" loading="lazy">
+            <div class="tile-label"><h3 class="display t-sub">Multi-site groups</h3></div>
+          </article>
         </div>
       </div>
     </section>
-    <section class="act act--light pad-lg" aria-labelledby="results-heading">
-      <div class="shell">
+    <section class="band band-ink sec" aria-labelledby="difference-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-5xl reveal" id="difference-heading">Your business is not a lead problem with a timetable attached.</h2>
+        <div class="grid grid-cols-1 gap-8 mt-12 min-[900px]:grid-cols-2 min-[900px]:gap-12">
+          <article class="reveal">
+            <h3 class="mono footer-head">What most consultants sell</h3>
+            <p class="mt-5 max-w-[62ch]">Most consultants in this space sell one of two things: marketing and leads, or gym-specific operating playbooks. Either can help. Neither sees the full operation.</p>
+          </article>
+          <article class="reveal" style="--d:120ms">
+            <h3 class="mono footer-head">What Mended does</h3>
+            <p class="mt-5 max-w-[62ch]">Mended works on the whole business, and has run one. Team, systems, sales and cash pressure are treated as connected problems, not separate projects.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="approach" aria-labelledby="process-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="process-heading">Work out what is wrong. Fix it. Leave it usable.</h2>
+        <div class="pipeline mt-14">
+          <div class="pipeline-rail" aria-hidden="true">
+            <span class="pipeline-signal"></span>
+            <span class="pipeline-node absolute left-0 top-1/2 -translate-y-1/2"></span>
+            <span class="pipeline-node absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></span>
+            <span class="pipeline-node absolute right-0 top-1/2 -translate-y-1/2"></span>
+          </div>
+          <div class="pipeline-stages">
+            <article class="card card-hover reveal" data-tilt>
+              <h3 class="display t-card">Diagnose</h3>
+              <p class="copy mt-4">Look at the numbers, roles, member experience and daily operation. Separate the visible symptom from the constraint underneath it.</p>
+            </article>
+            <article class="card card-yellow card-hover reveal" style="--d:120ms" data-tilt>
+              <h3 class="display t-card">Rebuild</h3>
+              <p class="copy mt-4">Change the process, offer, responsibility or management rhythm causing the drag. Put the new way of working into the week, not just on paper.</p>
+            </article>
+            <article class="card card-pink card-hover reveal" style="--d:240ms" data-tilt>
+              <h3 class="display t-card">Hand over</h3>
+              <p class="copy mt-4">Give the team the tools, measures and decision rights to keep it running. The owner should not become the system again.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" aria-labelledby="markets-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="markets-heading">Three markets. Different operating pressure.</h2>
+        <div class="grid grid-cols-1 gap-6 mt-12 min-[900px]:grid-cols-12 min-[900px]:items-start">
+          <article class="card card-lg card-hover reveal min-[900px]:col-span-5" data-tilt>
+            <h3 class="display t-card">Australia</h3>
+            <p class="copy mt-5">On the East Coast, boutique fitness is crowded and price comparison is easy. Margins stay thin when the owner still covers delivery, sales and every staffing gap.</p>
+            <p class="mt-7"><a class="link" href="wellness-business-consulting-australia.html">Wellness business consulting in Australia</a></p>
+          </article>
+          <article class="card card-lg card-yellow card-hover reveal min-[900px]:col-span-4 min-[900px]:mt-10" style="--d:100ms" data-tilt>
+            <h3 class="display t-card">Bali</h3>
+            <p class="copy mt-5">Retreat and expat operators face seasonal demand, staffing pressure and management at distance. Multi-site and franchise plans expose weak systems quickly.</p>
+            <p class="mt-7"><a class="link" href="wellness-business-consulting-bali.html">Wellness business consulting in Bali</a></p>
+          </article>
+          <article class="card card-lg card-pink card-hover reveal min-[900px]:col-span-3 min-[900px]:mt-20" style="--d:200ms" data-tilt>
+            <h3 class="display t-card">Singapore</h3>
+            <p class="copy mt-5">Regulation, leasing and high fixed costs leave little room for a vague offer. Premium positioning has to be backed by tight delivery, retention and pricing.</p>
+            <p class="mt-7"><a class="link" href="wellness-business-consulting-singapore.html">Wellness business consulting in Singapore</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="sec" aria-labelledby="results-heading">
+      <div class="wrap">
         <h2 class="sr-only" id="results-heading">Client result</h2>
-        <hr class="rule">
-        <div class="offset-2 max-w-5xl py-20 min-[900px]:py-28">
-          <blockquote>
-            <!-- TODO supply: Approved client quote describing a concrete business result in 2 to 3 lines. -->
-            <p class="pullquote tofill">[Client quote, 2 to 3 lines maximum]</p>
-            <!-- TODO supply: Client name, role and business name approved for publication. -->
-            <footer class="pullquote-by tofill mt-8">[Client name, role, business]</footer>
+        <div class="card card-lg reveal" data-tilt>
+          <p class="mono">A client result, in their words</p>
+          <!-- TODO supply: Approved client quote plus client name, role and business, kept to 2 to 3 lines. -->
+          <blockquote class="mt-6">
+            <div><p class="tofill pullquote">[Client quote goes here, 2 to 3 lines maximum]</p></div>
+            <div class="mt-6"><footer class="tofill mono">[Client name, role, business]</footer></div>
           </blockquote>
-          <a class="link mt-10" href="results.html">See the results</a>
+          <p class="mt-10"><a class="link" href="results.html">See the results</a></p>
         </div>
-        <hr class="rule">
       </div>
     </section>
-    <section class="act act--light pad-lg" id="faq" aria-labelledby="faq-heading">
-      <div class="shell grid grid-cols-1 gap-12 min-[900px]:grid-cols-12 min-[900px]:gap-16">
-        <div class="min-[900px]:col-span-4">
-          <h2 class="display t-lead min-[900px]:sticky min-[900px]:top-28 rise" id="faq-heading">Straight answers before the first call.</h2>
-        </div>
-        <div class="min-[900px]:col-span-7 min-[900px]:col-start-6 rise" data-accordion>
+    <section class="sec" id="faq" aria-labelledby="faq-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="faq-heading">Straight answers before the first call.</h2>
+        <div class="mt-12 reveal" data-accordion>
           <details class="acc">
-            <summary>
-              <span>What does a wellness business consultant do?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>A wellness business consultant looks at how the whole operation runs, finds what is holding it back, and helps fix the team, systems, sales or financial pressure causing the problem.</p>
-            </div>
+            <summary><span>What does a wellness business consultant do?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>A wellness business consultant looks at how the whole operation runs, finds what is holding it back, and helps fix the team, systems, sales or financial pressure causing the problem.</p></div>
           </details>
           <details class="acc">
-            <summary>
-              <span>How is this different from a gym marketing agency?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>A gym marketing agency mainly sells lead generation and member acquisition. Mended can work on sales, but also fixes hiring, delivery, pricing, retention and the operating systems behind them.</p>
-            </div>
+            <summary><span>How is this different from a gym marketing agency?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>A gym marketing agency mainly sells lead generation and member acquisition. Mended can work on sales, but also fixes hiring, delivery, pricing, retention and the operating systems behind them.</p></div>
           </details>
           <details class="acc">
-            <summary>
-              <span>What size business does Mended work with?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>Mended works with owner-operated boutique businesses, from a single gym or studio to multi-site groups, retreats and franchise operators. The fit depends more on the problem and the owner's readiness to act than location count.</p>
-            </div>
+            <summary><span>What size business does Mended work with?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>Mended works with owner-operated boutique businesses, from a single gym or studio to multi-site groups, retreats and franchise operators. The fit depends more on the problem and the owner's readiness to act than location count.</p></div>
           </details>
           <details class="acc">
-            <summary>
-              <span>Do you work with businesses outside Australia?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>Yes. Mended works with operators in Bali and Singapore as well as Australia. If your business is elsewhere, the first call will confirm whether the work and local conditions are a good fit.</p>
-            </div>
+            <summary><span>Do you work with businesses outside Australia?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>Yes. Mended works with operators in Bali and Singapore as well as Australia. If your business is elsewhere, the first call will confirm whether the work and local conditions are a good fit.</p></div>
           </details>
           <details class="acc">
-            <summary>
-              <span>What does an engagement look like and how long does it run?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>Work starts by diagnosing the real constraint, then rebuilding what is weak and handing over a system your team can run. Timing depends on the scope, urgency and number of areas involved.</p>
-            </div>
+            <summary><span>What does an engagement look like and how long does it run?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>Work starts by diagnosing the real constraint, then rebuilding what is weak and handing over a system your team can run. Timing depends on the scope, urgency and number of areas involved.</p></div>
           </details>
           <details class="acc">
-            <summary>
-              <span>What does it cost?</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </summary>
-            <div class="acc-body">
-              <p>Every engagement is scoped after the first call. Cost depends on the problem, the amount of hands-on work required and how much of the business is involved. You will receive a clear scope before committing.</p>
-            </div>
+            <summary><span>What does it cost?</span><span class="acc-icon" aria-hidden="true"></span></summary>
+            <div class="acc-body"><p>Every engagement is scoped after the first call. Cost depends on the problem, the amount of hands-on work required and how much of the business is involved. You will receive a clear scope before committing.</p></div>
           </details>
         </div>
       </div>
     </section>
-    <section class="act act--light pad-lg text-center" aria-labelledby="closing-heading">
-      <div class="shell">
-        <div class="offset-2 max-w-5xl min-[900px]:mr-[16.6667%] rise">
-          <h2 class="display t-lead" id="closing-heading">The business should support the work, not consume the owner.</h2>
-          <a class="btn btn-fill mt-9" href="contact.html">Book a call</a>
-        </div>
+    <section class="band band-pink sec" aria-labelledby="closing-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-5xl reveal" id="closing-heading">The business should support the work, not consume the owner.</h2>
+        <a class="btn btn-ink btn-lg magnetic mt-9 reveal" style="--d:120ms" href="contact.html">Book a call</a>
       </div>
     </section>
   </main>
-  <div class="seam seam--up" aria-hidden="true"></div>
-  <footer class="site-footer act act--dark pad-sm">
-    <div class="shell">
+  <footer class="site-footer">
+    <div class="wrap sec-sm">
       <div class="grid grid-cols-1 gap-12 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-4 min-[1024px]:gap-8">
         <div>
-          <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-              <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-            </svg>
-            <span class="wordmark-text">Mended</span>
-          </a>
-          <p class="copy mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
-          <p class="copy mt-3">Australia, Bali and Singapore.</p>
+          <a class="footer-head" href="index.html">Mended Consulting</a>
+          <p class="mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
+          <p class="mt-3">Australia, Bali and Singapore.</p>
         </div>
         <nav aria-label="Footer services">
           <h2 class="footer-head">Services</h2>
@@ -452,11 +458,10 @@
           <a class="footer-link" href="wellness-business-consulting-singapore.html">Singapore</a>
         </nav>
       </div>
-      <hr class="rule mt-14">
-      <div class="flex flex-col gap-3 pt-6 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
-        <p class="copy">&copy; <span data-year>2026</span> Mended Consulting.</p>
+      <div class="rule-thick mt-14 pt-6 flex flex-col gap-3 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+        <p>&copy; <span data-year>2026</span> Mended Consulting.</p>
         <!-- TODO supply: Confirmed Australian Business Number. -->
-        <p class="tofill copy">ABN [ABN]</p>
+        <p class="tofill">ABN [ABN]</p>
       </div>
     </div>
   </footer>

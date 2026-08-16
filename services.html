@@ -15,12 +15,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="assets/js/tailwind.config.js"></script>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="assets/css/site.css">
-<script src="https://unpkg.com/lucide@latest"></script>
 <script defer src="assets/js/site.js"></script>
 <script type="application/ld+json">
 {
@@ -79,15 +78,12 @@
 </script>
 </head>
 <body>
+  <div class="scroll-progress" data-progress aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header" data-over="dark">
-    <div class="shell header-inner">
+  <header class="site-header">
+    <div class="wrap header-inner">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
       <nav class="nav-desktop" aria-label="Primary navigation">
@@ -96,79 +92,69 @@
         <a class="nav-link" href="results.html">Results</a>
         <a class="nav-link" href="about.html">About</a>
         <a class="nav-link" href="contact.html">Contact</a>
-        <a class="nav-cta" href="contact.html">Book a call</a>
+        <a class="btn btn-pink btn-sm" href="contact.html">Book a call</a>
       </nav>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">
-        <span>Menu</span>
-        <i data-lucide="menu" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
     </div>
+    <noscript>
+      <nav class="wrap flex flex-wrap gap-4 py-4 min-[1024px]:hidden" aria-label="Navigation without JavaScript">
+        <a class="nav-link" href="services.html" aria-current="page">Services</a>
+        <a class="nav-link" href="index.html#approach">Approach</a>
+        <a class="nav-link" href="results.html">Results</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+      </nav>
+    </noscript>
   </header>
   <nav class="nav-mobile" id="mobile-navigation" data-nav-drawer aria-label="Mobile navigation" aria-hidden="true">
     <div class="flex items-center justify-between gap-4 pb-6">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
-      <button class="nav-toggle" type="button" data-nav-close aria-label="Close menu">
-        <span>Close</span><i data-lucide="x" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-close>Close</button>
     </div>
-    <a class="nav-mobile-link" href="services.html" aria-current="page"><span>Services</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="index.html#approach"><span>Approach</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="results.html"><span>Results</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="about.html"><span>About</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="contact.html"><span>Contact</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <div class="mt-auto pt-8"><a class="btn btn-fill w-full" href="contact.html">Book a call</a></div>
+    <a class="nav-mobile-link" href="services.html" aria-current="page">Services</a>
+    <a class="nav-mobile-link" href="index.html#approach">Approach</a>
+    <a class="nav-mobile-link" href="results.html">Results</a>
+    <a class="nav-mobile-link" href="about.html">About</a>
+    <a class="nav-mobile-link" href="contact.html">Contact</a>
+    <div class="mt-auto pt-8"><a class="btn btn-pink btn-lg w-full" href="contact.html">Book a call</a></div>
   </nav>
   <main id="main">
-    <section class="act act--dark hero-scrim min-h-[68dvh] flex items-end overflow-hidden pt-24 pb-12 min-[900px]:pb-16" aria-labelledby="services-heading">
-      <div class="fig bleed absolute inset-y-0">
-        <!-- TODO replace: Wellness business owner and manager reviewing the operation together inside the venue. -->
-        <img src="https://picsum.photos/seed/mended-business-pressure-review/1920/1200" alt="Wellness business owner and manager reviewing the operation inside a studio" width="1920" height="1200" loading="eager" fetchpriority="high">
-      </div>
-      <div class="shell relative z-10">
+    <section class="sec min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="services-heading">
+      <div class="wrap py-8 min-[900px]:py-12">
         <div class="max-w-5xl">
-          <h1 class="display t-lead" id="services-heading">
-            <span class="unmask"><span>Fix the pressure.</span></span>
-            <span class="unmask" style="--d:110ms"><span>Build it to <span class="em">hold.</span></span></span>
-          </h1>
-          <p class="lede rise mt-6" style="--d:180ms">Mended fixes the team, systems, sales and cash pressure keeping wellness business owners stuck in the operation.</p>
-          <a class="btn btn-fill rise mt-7" style="--d:250ms" href="contact.html">Book a call</a>
+          <h1 class="display t-sec reveal" id="services-heading">Fix the pressure. Build it to hold.</h1>
+          <p class="lede mt-7 reveal" style="--d:100ms">Mended fixes the team, systems, sales and cash pressure keeping wellness business owners stuck in the operation.</p>
+          <a class="btn btn-pink btn-lg magnetic mt-8 reveal" style="--d:200ms" href="contact.html">Book a call</a>
         </div>
       </div>
     </section>
-    <div class="seam" aria-hidden="true"></div>
-    <section class="act act--light pad-lg" aria-labelledby="services-opening-heading">
-      <div class="shell">
-        <hr class="rule">
-        <h2 class="display t-lead offset-2 max-w-5xl mt-14 rise" id="services-opening-heading">The work starts where the owner is carrying too much, then rebuilds the part of the business that cannot hold without them.</h2>
+    <section class="band band-yellow sec-sm" aria-labelledby="services-opening-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-5xl reveal" id="services-opening-heading">The work starts where the owner is carrying too much, then rebuilds the part of the business that cannot hold without them.</h2>
       </div>
     </section>
-    <section class="act act--light pad" id="hiring" aria-labelledby="hiring-heading">
-      <div class="shell grid grid-cols-1 gap-14 min-[900px]:grid-cols-12 min-[900px]:gap-16 min-[900px]:items-start">
-        <div class="fig bleed-l h-[56vh] min-h-[420px] min-[900px]:col-span-6 min-[900px]:h-[78vh] min-[900px]:min-h-[620px]">
-          <!-- TODO replace: Studio manager welcoming and briefing a capable team at the start of a shift. -->
-          <img src="https://picsum.photos/seed/mended-capable-studio-team/1200/1500" alt="Studio manager briefing the team at the start of a shift" width="1200" height="1500" loading="lazy">
+
+    <section class="sec overflow-hidden" id="hiring" aria-labelledby="hiring-heading">
+      <div class="grid grid-cols-1 gap-12 min-[900px]:grid-cols-2 min-[900px]:items-center min-[900px]:gap-0">
+        <div class="tile min-h-[420px] min-[900px]:min-h-[680px] reveal">
+          <img src="https://images.unsplash.com/photo-1683056255281-e52a141924f0?w=1200&amp;q=75&amp;auto=format&amp;fit=crop" alt="Instructor leading a group yoga class in a bright studio" width="1200" height="1500" loading="eager" fetchpriority="high">
         </div>
-        <div class="min-[900px]:col-span-5 min-[900px]:col-start-8 rise">
-          <h2 class="display t-lead" id="hiring-heading">Hiring and team</h2>
-          <p class="lede mt-6">Good people should make the business stronger, not create another layer for the owner to carry.</p>
-          <div class="mt-12">
-            <article class="pb-8">
+        <div class="px-4 min-[900px]:px-12 min-[1200px]:px-20">
+          <h2 class="display t-sec reveal" id="hiring-heading">Hiring and team</h2>
+          <p class="lede mt-6 reveal" style="--d:80ms">Good people should make the business stronger, not create another layer for the owner to carry.</p>
+          <div class="mt-10">
+            <article class="reveal">
               <h3 class="display t-sub">What you are dealing with</h3>
               <p class="copy mt-4">Every roster gap lands with you. New starters learn by watching whoever is on shift. Strong team members leave because expectations, feedback and progression are unclear.</p>
             </article>
-            <hr class="rule">
-            <article class="py-8">
+            <article class="rule-thick mt-7 pt-7 reveal" style="--d:100ms">
               <h3 class="display t-sub">What Mended does</h3>
               <p class="copy mt-4">Clarifies the roles the business actually needs, tightens hiring and onboarding, and puts useful management habits into the week. Responsibilities become visible and follow-up stops relying on memory.</p>
             </article>
-            <hr class="rule">
-            <article class="pt-8">
+            <article class="rule-thick mt-7 pt-7 reveal" style="--d:200ms">
               <h3 class="display t-sub">What changes</h3>
               <p class="copy mt-4">People know what good work looks like and who owns each decision. The team can handle more without escalating every detail, giving the owner room to lead the business.</p>
             </article>
@@ -176,126 +162,103 @@
         </div>
       </div>
     </section>
-
-    <section class="act act--light pad-lg" id="operations" aria-labelledby="operations-heading">
-      <div class="shell">
-        <div class="offset-3 max-w-4xl rise">
-          <h2 class="display t-lead" id="operations-heading">Operations and systems</h2>
-          <p class="pullquote mt-10">A process only counts when the team can use it on a busy day without calling the owner.</p>
-        </div>
-        <hr class="rule mt-16">
-        <div class="grid grid-cols-1 gap-8 py-12 min-[900px]:grid-cols-[1fr_auto_1fr] min-[900px]:gap-14">
-          <article class="rise">
-            <h3 class="display t-sub">The drag</h3>
-            <p class="copy mt-5">Instructions live in messages, documents and one person's head. Problems are handled differently each time. The week fills with checking, chasing and preventable rework.</p>
-            <h3 class="display t-sub mt-10">The work</h3>
-            <p class="copy mt-5">Mended maps the recurring work, removes unnecessary steps and sets clear ownership. The right checklists, tools, meetings and measures are built around how the venue actually runs.</p>
+    <section class="band band-ink sec" id="operations" aria-labelledby="operations-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="operations-heading">Operations and systems</h2>
+        <p class="pullquote mt-9 max-w-4xl reveal" style="--d:80ms">A process only counts when the team can use it on a busy day without calling the owner.</p>
+        <div class="grid grid-cols-1 gap-10 mt-14 min-[900px]:grid-cols-12 min-[900px]:gap-12">
+          <article class="min-[900px]:col-span-5 reveal">
+            <h3 class="mono footer-head">The drag</h3>
+            <p class="mt-5 max-w-[62ch]">Instructions live in messages, documents and one person's head. Problems are handled differently each time. The week fills with checking, chasing and preventable rework.</p>
           </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="rise" style="--d:120ms">
-            <h3 class="display t-sub">The result</h3>
-            <p class="copy mt-5">The operation becomes easier to see and manage. Staff can act without guessing, issues surface earlier, and the business keeps moving when the owner is not in the room.</p>
+          <article class="min-[900px]:col-span-5 min-[900px]:col-start-8 reveal" style="--d:100ms">
+            <h3 class="mono footer-head">The work</h3>
+            <p class="mt-5 max-w-[62ch]">Mended maps the recurring work, removes unnecessary steps and sets clear ownership. The right checklists, tools, meetings and measures are built around how the venue actually runs.</p>
           </article>
-        </div>
-        <hr class="rule">
-      </div>
-    </section>
-
-    <section class="act act--light pad" id="sales" aria-labelledby="sales-heading">
-      <div class="shell">
-        <div class="max-w-5xl rise">
-          <h2 class="display t-lead" id="sales-heading">Sales and revenue</h2>
-          <p class="lede mt-6">More leads do not repair weak pricing, unclear offers or members leaving through the back door.</p>
-        </div>
-        <div class="index mt-16">
-          <div class="index-row rise">
-            <span class="numeral">01</span>
-            <h3 class="display t-row">What you are seeing</h3>
-            <p class="copy">Enquiries stall, discounts become the default and the membership mix no longer supports the cost of delivery. Staff avoid sales conversations or handle them differently. Existing members drift away without a clear response.</p>
-          </div>
-          <div class="index-row rise" style="--d:90ms">
-            <span class="numeral">02</span>
-            <h3 class="display t-row">What Mended does</h3>
-            <p class="copy">Reviews the offer, pricing, packages, sales path and retention habits together. The work focuses on what members value, what the team can sell honestly and what the numbers need to support.</p>
-          </div>
-          <div class="index-row rise" style="--d:180ms">
-            <span class="numeral">03</span>
-            <h3 class="display t-row">What changes</h3>
-            <p class="copy">The offer is easier to understand and the team has a clear way to sell it. Pricing decisions have a reason behind them. Retention becomes an operating habit, not a rescue campaign after cancellations rise.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="act act--light pad-lg" id="reset" aria-labelledby="reset-heading">
-      <div class="shell">
-        <h2 class="display t-lead max-w-5xl rise" id="reset-heading">Reset and crisis turnaround</h2>
-        <p class="pullquote offset-2 max-w-5xl mt-14 rise" style="--d:100ms">When cash, members or energy are running out, the order of the work matters. <span class="em">Stabilise first. Rebuild second.</span></p>
-        <div class="offset-3 max-w-3xl mt-20">
-          <article class="rise">
-            <h3 class="display t-sub">When this is the right work</h3>
-            <p class="copy mt-5">The business is losing money, membership is sliding, bills are stacking up or the owner cannot see a workable next move. There may be several visible problems, but limited time and cash to address them.</p>
-          </article>
-          <hr class="rule my-10">
-          <article class="rise" style="--d:90ms">
-            <h3 class="display t-sub">How Mended responds</h3>
-            <p class="copy mt-5">Gets a clear view of cash, commitments, members, staffing and delivery. Immediate leaks are contained, decisions are ranked by urgency, and a practical recovery plan is put into action with the owner.</p>
-          </article>
-          <hr class="rule my-10">
-          <article class="rise" style="--d:180ms">
-            <h3 class="display t-sub">What changes</h3>
-            <p class="copy mt-5">The owner knows what must happen now, what can wait and what needs to stop. Once the business is stable, the underlying team, operating or revenue problems can be rebuilt without panic driving every decision.</p>
+          <article class="min-[900px]:col-span-5 min-[900px]:col-start-4 reveal" style="--d:200ms">
+            <h3 class="mono footer-head">The result</h3>
+            <p class="mt-5 max-w-[62ch]">The operation becomes easier to see and manage. Staff can act without guessing, issues surface earlier, and the business keeps moving when the owner is not in the room.</p>
           </article>
         </div>
       </div>
     </section>
-
-    <section class="act act--light pad-lg" aria-labelledby="engagement-heading">
-      <div class="shell">
-        <div class="offset-2 max-w-5xl rise">
-          <h2 class="display t-lead" id="engagement-heading">The shape follows the problem.</h2>
-          <p class="lede mt-6">Scope is set after the first call, once the constraint and level of support are clear.</p>
+    <section class="sec" id="sales" aria-labelledby="sales-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-5xl reveal" id="sales-heading">Sales and revenue</h2>
+        <p class="lede mt-6 reveal" style="--d:80ms">More leads do not repair weak pricing, unclear offers or members leaving through the back door.</p>
+        <div class="modules modules-3 mt-12">
+          <article class="module reveal">
+            <h3 class="display t-card">What you are seeing</h3>
+            <p class="copy mt-5">Enquiries stall, discounts become the default and the membership mix no longer supports the cost of delivery. Staff avoid sales conversations or handle them differently. Existing members drift away without a clear response.</p>
+          </article>
+          <article class="module reveal" style="--d:100ms">
+            <h3 class="display t-card">What Mended does</h3>
+            <p class="copy mt-5">Reviews the offer, pricing, packages, sales path and retention habits together. The work focuses on what members value, what the team can sell honestly and what the numbers need to support.</p>
+          </article>
+          <article class="module reveal" style="--d:200ms">
+            <h3 class="display t-card">What changes</h3>
+            <p class="copy mt-5">The offer is easier to understand and the team has a clear way to sell it. Pricing decisions have a reason behind them. Retention becomes an operating habit, not a rescue campaign after cancellations rise.</p>
+          </article>
         </div>
-        <div class="grid grid-cols-1 gap-0 mt-16 min-[900px]:grid-cols-[1fr_auto_1fr_auto_1fr]">
-          <article class="py-8 min-[900px]:py-0 min-[900px]:pr-10 rise">
-            <h3 class="display t-sub">Diagnostic</h3>
+      </div>
+    </section>
+    <section class="sec" id="reset" aria-labelledby="reset-heading">
+      <div class="wrap">
+        <div class="card card-lg card-yellow reveal" data-tilt>
+          <h2 class="display t-sec max-w-5xl" id="reset-heading">Reset and crisis turnaround</h2>
+          <p class="pullquote mt-9 max-w-5xl">When cash, members or energy are running out, the order of the work matters. Stabilise first. Rebuild second.</p>
+          <div class="grid grid-cols-1 mt-12 min-[900px]:grid-cols-2">
+            <article class="pb-8 min-[900px]:pb-0 min-[900px]:pr-12">
+              <h3 class="display t-card">When this is the right work</h3>
+              <p class="copy mt-5">The business is losing money, membership is sliding, bills are stacking up or the owner cannot see a workable next move. There may be several visible problems, but limited time and cash to address them.</p>
+            </article>
+            <div class="border-t-2 border-black pt-8 min-[900px]:border-l-2 min-[900px]:border-t-0 min-[900px]:pl-12 min-[900px]:pt-0">
+              <article>
+                <h3 class="display t-card">How Mended responds</h3>
+                <p class="copy mt-5">Gets a clear view of cash, commitments, members, staffing and delivery. Immediate leaks are contained, decisions are ranked by urgency, and a practical recovery plan is put into action with the owner.</p>
+              </article>
+              <article class="rule-thick mt-8 pt-8">
+                <h3 class="display t-card">What changes</h3>
+                <p class="copy mt-5">The owner knows what must happen now, what can wait and what needs to stop. Once the business is stable, the underlying team, operating or revenue problems can be rebuilt without panic driving every decision.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="band band-pink sec" aria-labelledby="engagement-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-5xl reveal" id="engagement-heading">The shape follows the problem.</h2>
+        <p class="lede mt-6 reveal" style="--d:80ms">Scope is set after the first call, once the constraint and level of support are clear.</p>
+        <div class="grid grid-cols-1 mt-12 border-y-2 border-black min-[900px]:grid-cols-3">
+          <article class="py-8 reveal min-[900px]:pr-10">
+            <h3 class="display t-card">Diagnostic</h3>
             <p class="copy mt-5">A close look at the operation to separate symptoms from causes and set the right order of work.</p>
           </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="py-8 min-[900px]:px-10 rise" style="--d:90ms">
-            <h3 class="display t-sub">Focused rebuild</h3>
+          <article class="border-t-2 border-black py-8 reveal min-[900px]:border-l-2 min-[900px]:border-t-0 min-[900px]:px-10" style="--d:90ms">
+            <h3 class="display t-card">Focused rebuild</h3>
             <p class="copy mt-5">Hands-on work on one priority such as hiring, operating systems, pricing or retention.</p>
           </article>
-          <hr class="rule w-full min-[900px]:!h-auto min-[900px]:!w-px min-[900px]:self-stretch">
-          <article class="py-8 min-[900px]:py-0 min-[900px]:pl-10 rise" style="--d:180ms">
-            <h3 class="display t-sub">Reset support</h3>
+          <article class="border-t-2 border-black py-8 reveal min-[900px]:border-l-2 min-[900px]:border-t-0 min-[900px]:pl-10" style="--d:180ms">
+            <h3 class="display t-card">Reset support</h3>
             <p class="copy mt-5">Direct support to stabilise a business under pressure, make hard decisions in the right order and rebuild control.</p>
           </article>
         </div>
-        <hr class="rule mt-16">
-        <div class="offset-2 max-w-5xl text-center mt-20 min-[900px]:mr-[16.6667%] rise">
-          <h2 class="display t-lead">Start with the part that cannot keep going as it is.</h2>
-          <p class="lede mx-auto mt-6">Bring the real problem. The first call will work out whether Mended is the right fit to address it.</p>
-          <a class="btn btn-fill mt-9" href="contact.html">Book a call</a>
+        <div class="mt-14 reveal">
+          <h2 class="display t-sec max-w-5xl">Start with the part that cannot keep going as it is.</h2>
+          <p class="lede mt-6">Bring the real problem. The first call will work out whether Mended is the right fit to address it.</p>
+          <a class="btn btn-ink btn-lg magnetic mt-9" href="contact.html">Book a call</a>
         </div>
       </div>
     </section>
   </main>
-
-  <div class="seam seam--up" aria-hidden="true"></div>
-  <footer class="site-footer act act--dark pad-sm">
-    <div class="shell">
+  <footer class="site-footer">
+    <div class="wrap sec-sm">
       <div class="grid grid-cols-1 gap-12 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-4 min-[1024px]:gap-8">
         <div>
-          <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-              <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-            </svg>
-            <span class="wordmark-text">Mended</span>
-          </a>
-          <p class="copy mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
-          <p class="copy mt-3">Australia, Bali and Singapore.</p>
+          <a class="footer-head" href="index.html">Mended Consulting</a>
+          <p class="mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
+          <p class="mt-3">Australia, Bali and Singapore.</p>
         </div>
         <nav aria-label="Footer services">
           <h2 class="footer-head">Services</h2>
@@ -318,11 +281,10 @@
           <a class="footer-link" href="wellness-business-consulting-singapore.html">Singapore</a>
         </nav>
       </div>
-      <hr class="rule mt-14">
-      <div class="flex flex-col gap-3 pt-6 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
-        <p class="copy">&copy; <span data-year>2026</span> Mended Consulting.</p>
+      <div class="rule-thick mt-14 pt-6 flex flex-col gap-3 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+        <p>&copy; <span data-year>2026</span> Mended Consulting.</p>
         <!-- TODO supply: Confirmed Australian Business Number. -->
-        <p class="tofill copy">ABN [ABN]</p>
+        <p class="tofill">ABN [ABN]</p>
       </div>
     </div>
   </footer>

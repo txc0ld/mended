@@ -16,12 +16,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="assets/js/tailwind.config.js"></script>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="stylesheet" href="assets/css/site.css">
-<script src="https://unpkg.com/lucide@latest"></script>
 <script defer src="assets/js/site.js"></script>
 <script type="application/ld+json">
 {
@@ -36,14 +35,12 @@
 </script>
 </head>
 <body>
+  <div class="scroll-progress" data-progress aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header" data-over="dark">
-    <div class="shell header-inner">
+  <header class="site-header">
+    <div class="wrap header-inner">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
       <nav class="nav-desktop" aria-label="Primary navigation">
@@ -52,89 +49,77 @@
         <a class="nav-link" href="results.html">Results</a>
         <a class="nav-link" href="about.html">About</a>
         <a class="nav-link" href="contact.html">Contact</a>
-        <a class="nav-cta" href="contact.html">Book a call</a>
+        <a class="btn btn-pink btn-sm" href="contact.html">Book a call</a>
       </nav>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">
-        <span>Menu</span>
-        <i data-lucide="menu" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
     </div>
+    <noscript>
+      <nav class="wrap flex flex-wrap gap-4 py-4 min-[1024px]:hidden" aria-label="Navigation without JavaScript">
+        <a class="nav-link" href="services.html">Services</a>
+        <a class="nav-link" href="index.html#approach">Approach</a>
+        <a class="nav-link" href="results.html">Results</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+      </nav>
+    </noscript>
   </header>
   <nav class="nav-mobile" id="mobile-navigation" data-nav-drawer aria-label="Mobile navigation" aria-hidden="true">
     <div class="flex items-center justify-between gap-4 pb-6">
       <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-          <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-        </svg>
+        <span class="wordmark-badge" aria-hidden="true">MC</span>
         <span class="wordmark-text">Mended</span>
       </a>
-      <button class="nav-toggle" type="button" data-nav-close aria-label="Close menu">
-        <span>Close</span><i data-lucide="x" aria-hidden="true"></i>
-      </button>
+      <button class="nav-toggle" type="button" data-nav-close>Close</button>
     </div>
-    <a class="nav-mobile-link" href="services.html"><span>Services</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="index.html#approach"><span>Approach</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="results.html"><span>Results</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="about.html"><span>About</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <a class="nav-mobile-link" href="contact.html"><span>Contact</span><i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-    <div class="mt-auto pt-8"><a class="btn btn-fill w-full" href="contact.html">Book a call</a></div>
+    <a class="nav-mobile-link" href="services.html">Services</a>
+    <a class="nav-mobile-link" href="index.html#approach">Approach</a>
+    <a class="nav-mobile-link" href="results.html">Results</a>
+    <a class="nav-mobile-link" href="about.html">About</a>
+    <a class="nav-mobile-link" href="contact.html">Contact</a>
+    <div class="mt-auto pt-8"><a class="btn btn-pink btn-lg w-full" href="contact.html">Book a call</a></div>
   </nav>
   <main id="main">
-    <section class="act act--dark hero-scrim min-h-[64dvh] flex items-end overflow-hidden pt-28 pb-12 min-[900px]:pb-16" aria-labelledby="thanks-heading">
-      <div class="fig bleed absolute inset-y-0">
-        <!-- TODO replace: Quiet wellness venue ready for the next day after a productive owner conversation. -->
-        <img src="https://picsum.photos/seed/mended-enquiry-confirmed/1920/1200" alt="Quiet wellness venue ready for the next day" width="1920" height="1200" loading="eager" fetchpriority="high">
-      </div>
-      <div class="shell relative z-10"><div class="max-w-5xl">
-        <h1 class="display t-lead" id="thanks-heading">
-          <span class="unmask"><span>Your enquiry is <span class="em">in.</span></span></span>
-        </h1>
-        <p class="lede rise mt-6" style="--d:120ms">Mended will review what you sent and reply with the right next step. You will not be pushed into a call that does not fit.</p>
-      </div></div>
-    </section>
-    <div class="seam" aria-hidden="true"></div>
-    <section class="act act--light pad-lg" aria-labelledby="next-heading">
-      <div class="shell"><hr class="rule">
-        <div class="offset-2 max-w-4xl mt-14 rise">
-          <h2 class="display t-lead" id="next-heading">What happens next.</h2>
-          <p class="lede mt-7">Mended reviews the business, the pressure and your timing before replying with the right next step.</p>
-        </div>
+    <section class="band band-pink sec" aria-labelledby="thanks-heading">
+      <div class="wrap max-w-5xl">
+        <p class="mono mono-bold reveal">Enquiry received</p>
+        <h1 class="display t-sec mt-6 reveal" style="--d:80ms" id="thanks-heading">Your enquiry is in.</h1>
+        <p class="lede mt-7 reveal" style="--d:160ms">Mended will review what you sent and reply with the right next step. You will not be pushed into a call that does not fit.</p>
       </div>
     </section>
-    <section class="act act--light pad" aria-labelledby="wait-heading">
-      <div class="shell grid grid-cols-1 gap-14 min-[900px]:grid-cols-12 min-[900px]:items-center">
-        <div class="min-[900px]:col-span-5 min-[900px]:col-start-2 rise">
-          <div class="offset-3">
-            <h2 class="display t-lead" id="wait-heading">While you wait</h2>
-            <p class="copy mt-7">Read how Mended works across the team, operations, sales and urgent business resets, or check the results page for approved client work.</p>
-            <div class="flex flex-wrap gap-3 mt-9">
-              <a class="btn btn-fill" href="services.html">See the services</a>
-              <a class="btn btn-line" href="results.html">See the results</a>
-            </div>
-          </div>
-        </div>
-        <div class="fig bleed-r h-[50vh] min-h-[380px] min-[900px]:col-span-6 min-[900px]:col-start-7 min-[900px]:h-[66vh]">
-          <!-- TODO replace: Team preparing a boutique wellness venue for another well-run day. -->
-          <img src="https://picsum.photos/seed/mended-while-you-wait/1200/1400" alt="Team preparing a boutique wellness venue for the day" width="1200" height="1400" loading="lazy">
+    <section class="band band-ink sec-sm" aria-labelledby="next-heading">
+      <div class="wrap grid grid-cols-1 gap-8 min-[900px]:grid-cols-12 min-[900px]:items-end">
+        <h2 class="display t-sec reveal min-[900px]:col-span-6" id="next-heading">What happens next.</h2>
+        <p class="reveal min-[900px]:col-span-5 min-[900px]:col-start-8" style="--d:120ms">Mended reviews the business, the pressure and your timing before replying with the right next step.</p>
+      </div>
+    </section>
+    <section class="sec" aria-labelledby="wait-heading">
+      <div class="wrap">
+        <h2 class="display t-sec max-w-4xl reveal" id="wait-heading">While you wait</h2>
+        <p class="lede mt-7 reveal" style="--d:80ms">Read how Mended works across the team, operations, sales and urgent business resets, or check the results page for approved client work.</p>
+        <div class="modules modules-2 mt-12">
+          <a class="module reveal" href="services.html">
+            <span class="module-num">01</span>
+            <h3 class="display t-card mt-8">How Mended works</h3>
+            <p class="copy mt-5">See the four service areas and how each one addresses a different operating problem.</p>
+            <span class="module-arrow">See the services</span>
+          </a>
+          <a class="module reveal" style="--d:120ms" href="results.html">
+            <span class="module-num">02</span>
+            <h3 class="display t-card mt-8">Published client work</h3>
+            <p class="copy mt-5">Check the results page for case studies that clients have cleared for release.</p>
+            <span class="module-arrow">See the results</span>
+          </a>
         </div>
       </div>
     </section>
   </main>
-  <div class="seam seam--up" aria-hidden="true"></div>
-  <footer class="site-footer act act--dark pad-sm">
-    <div class="shell">
+  <footer class="site-footer">
+    <div class="wrap sec-sm">
       <div class="grid grid-cols-1 gap-12 min-[700px]:grid-cols-2 min-[1024px]:grid-cols-4 min-[1024px]:gap-8">
         <div>
-          <a class="wordmark" href="index.html" aria-label="Mended Consulting home">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path class="seam-stroke" d="M3 5.5L10.5 13.5"></path>
-              <path class="seam-stroke" d="M10.5 13.5L19 4.5"></path>
-            </svg>
-            <span class="wordmark-text">Mended</span>
-          </a>
-          <p class="copy mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
-          <p class="copy mt-3">Australia, Bali and Singapore.</p>
+          <a class="footer-head" href="index.html">Mended Consulting</a>
+          <p class="mt-5">Wellness business consulting for owner-operated gyms, studios, recovery centres and retreats.</p>
+          <p class="mt-3">Australia, Bali and Singapore.</p>
         </div>
         <nav aria-label="Footer services">
           <h2 class="footer-head">Services</h2>
@@ -157,11 +142,10 @@
           <a class="footer-link" href="wellness-business-consulting-singapore.html">Singapore</a>
         </nav>
       </div>
-      <hr class="rule mt-14">
-      <div class="flex flex-col gap-3 pt-6 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
-        <p class="copy">&copy; <span data-year>2026</span> Mended Consulting.</p>
+      <div class="rule-thick mt-14 pt-6 flex flex-col gap-3 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+        <p>&copy; <span data-year>2026</span> Mended Consulting.</p>
         <!-- TODO supply: Confirmed Australian Business Number. -->
-        <p class="tofill copy">ABN [ABN]</p>
+        <p class="tofill">ABN [ABN]</p>
       </div>
     </div>
   </footer>
