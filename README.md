@@ -193,16 +193,42 @@ If you extend the site, keep these or it will drift.
 
 ## Hosting
 
-Any static host works: Netlify, Cloudflare Pages, Vercel, GitHub Pages, or plain shared
-hosting over FTP. Upload the contents of this folder to the web root.
+**Live now:** https://mended-six.vercel.app
 
-Recommended host settings:
+- **Repo:** https://github.com/txc0ld/mended (public)
+- **Vercel project:** `tx-build/mended`, connected to the repo
 
-- Force HTTPS and redirect the apex or `www` to whichever you set as canonical.
-- Point the 404 handler at `404.html`.
-- If the host supports clean URLs, serve `/services` from `services.html` and update the
-  canonicals and internal links to match. The current links use `.html` so the site works
-  when opened directly from disk.
+Pushing to `main` deploys to production automatically. Any pull request gets its own
+preview URL. There is no build step, Vercel serves the files as they are.
+
+`vercel.json` sets:
+
+- security headers on every response
+- a one hour cache on `/assets/*`
+- `X-Robots-Tag: noindex, nofollow` **only** on `*.vercel.app` hosts, so the staging URL
+  cannot be indexed. That rule is host-scoped, so it stops applying by itself the moment
+  a real domain is attached. You do not need to remember to remove it.
+
+`404.html` is served automatically for unknown paths.
+
+### Attaching the real domain
+
+1. In Vercel, open the `mended` project, then Settings, then Domains, and add the domain.
+2. Point the DNS at Vercel as instructed there.
+3. Find and replace `https://mendedconsulting.com.au/` across the HTML files plus
+   `sitemap.xml` and `robots.txt` if the final domain differs.
+4. Decide apex or `www` and redirect the other to it, so it matches the canonical tags.
+
+### Other hosts
+
+Nothing here is Vercel specific. Netlify, Cloudflare Pages, GitHub Pages or plain shared
+hosting over FTP all work: upload the contents of this folder to the web root and point
+the 404 handler at `404.html`. Only `vercel.json` would need replacing with that host's
+equivalent config.
+
+Internal links use `.html` extensions on purpose, so the site also works when opened
+directly from disk. If you switch the host to clean URLs, update the canonical tags and
+the internal links to match.
 
 ---
 
