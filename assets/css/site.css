@@ -155,6 +155,16 @@ img { display: block; max-width: 100%; }
 
 .hero-dark .mark { box-shadow: 0 0 0 var(--bw) var(--paper); }
 
+/* The hero lockup's tight leading leaves no room for the mark's outline, so
+   the block crowds the line above it. inline-block lets the mark's line box
+   own its full height, and the margin opens a sliver of air beneath the
+   preceding line at every wrap width. */
+.t-hero .mark {
+  display: inline-block;
+  margin-top: 0.12em;
+  padding: 0.02em 0.14em 0.04em;
+}
+
 .hero-dark .btn-brand {
   border-color: var(--paper);
   box-shadow: 4px 4px 0 var(--paper);
