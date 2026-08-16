@@ -538,12 +538,25 @@
     var SPEED = 0.3;
     var GRAIN = 0.5;
 
-    function resize() {
+    var sizedW = 0, sizedH = 0;
+
+    function resize(force) {
       var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       var r = layer.getBoundingClientRect();
-      canvas.width = Math.max(1, Math.round(r.width * dpr));
-      canvas.height = Math.max(1, Math.round(r.height * dpr));
-      gl.viewport(0, 0, canvas.width, canvas.height);
+      var w = Math.max(1, Math.round(r.width * dpr));
+      var h = Math.max(1, Math.round(r.height * dpr));
+      // Mobile browsers collapse and expand the URL bar while scrolling,
+      // which jiggles the layer height. Setting canvas.width/height WIPES
+      // the canvas, and the repaint lands a frame later: that gap is a
+      // black flicker on every scroll. So height-only wobble is absorbed
+      // by CSS stretch (invisible on a noise field) and the buffer is only
+      // reallocated for real changes.
+      if (!force && w === sizedW && Math.abs(h - sizedH) < 180) return false;
+      sizedW = w; sizedH = h;
+      canvas.width = w;
+      canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      return true;
     }
 
     function draw(t) {
@@ -589,12 +602,13 @@
       if (resizeRaf) return;
       resizeRaf = window.requestAnimationFrame(function () {
         resizeRaf = null;
-        resize();
-        if (!running) draw(reduce ? 40000 : performance.now());
+        // A real reallocation wipes the canvas, so the redraw happens in the
+        // SAME frame: no blank frame is ever presented.
+        if (resize(false)) draw(reduce ? 40000 : performance.now());
       });
     }).observe(layer);
 
-    resize();
+    resize(true);
     if (reduce) {
       // one still frame at a fixed time, chosen for a good composition
       draw(40000);
