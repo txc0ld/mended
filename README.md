@@ -33,8 +33,9 @@ browser and it runs.
 
 ## The design in one page
 
-The site is built on **TIDE**, a neo-brutalist system. Paper cream background, hot pink
-and caution yellow, 2px black borders on everything, hard offset shadows instead of blurs,
+The site is built on **TIDE**, a neo-brutalist system, wearing Mended's real brand
+colours: bone paper and oxblood maroon, sampled from the client's own identity lockup.
+2px black borders on everything, hard offset shadows instead of blurs,
 and a lot of motion. The reference point is Gumroad and retail signage rather than
 software.
 
@@ -47,12 +48,14 @@ personality.
 
 1. Every container gets a **2px solid black border**.
 2. Depth is a **hard offset shadow**, `4px 4px 0 #000`. Never a blur.
-3. Backgrounds are **flat**: cream, pink, yellow or black. **No gradients anywhere.**
+3. Backgrounds are **flat**: bone, maroon, sand or black. **No gradients anywhere.**
 4. Technical labels are **uppercase mono**, `0.1em` tracking. Use `.mono`.
-5. **Pink is a fill, never text on cream.** `#ff90e8` on `#f4f4f0` is 1.8:1 and fails
-   WCAG badly. Links are `.link`, black text with a pink underline. To emphasise a word in
-   a headline use `.mark`, which sets it on a pink block. Pink text on the black
-   `.band-ink` is fine and is used there for `.mono` labels.
+5. **Maroon fills take bone text, always.** The brand maroon is dark, so black text on
+   maroon is 1.5:1 and banned, and nothing maroon sits on a black surface (also 1.5:1),
+   which is why the footer is maroon rather than black. Maroon text on bone is 12:1 and
+   fine. Links are `.link`, black text with a maroon underline. To emphasise a word in
+   a headline use `.mark`, which sets it on a maroon block with bone text. Labels on the
+   black `.band-ink` are sand, never maroon.
 
 ### The moving parts
 
@@ -60,10 +63,10 @@ personality.
 
 | Hook | What it does |
 |---|---|
-| `[data-progress]` | fixed pink scroll progress bar |
+| `[data-progress]` | fixed maroon scroll progress bar |
 | `[data-target]` | counters that tick up when scrolled into view |
 | `.stat-bar` | the bar that grows under each counter |
-| `.marquee-track` | pink running band, cloned in JS for a seamless loop |
+| `.marquee-track` | maroon running band, cloned in JS for a seamless loop |
 | `.module` | grid cell with a black sweep on hover |
 | `.pipeline-signal` | dot tracing the process rail |
 | `[data-gallery]` `[data-filter]` `[data-cat]` | filterable vertical gallery |
@@ -143,19 +146,18 @@ The site was built so that arriving brand does not mean a rebuild. Open
 `assets/css/site.css` and change the values in `:root` at the top:
 
 ```css
---paper:     #f4f4f0;   /* page background */
---ink:       #000000;   /* text and every border */
---accent:    #ff90e8;   /* TIDE pink, fills only */
---highlight: #ffc900;   /* caution yellow, badges and open accordions */
+--paper:  #efece4;   /* bone, from the brand lockup */
+--ink:    #000000;   /* text and every border */
+--accent: #580b0e;   /* Mended maroon, sampled from the brand */
+--sand:   #e4ded2;   /* quiet secondary surface */
 ```
 
 Then mirror them in `assets/js/tailwind.config.js`. Fonts are set once per page in the
 Google Fonts `<link>` and mapped in `site.css`.
 
-**If you change the accent, re-check contrast.** The current pink is deliberately never
-used as text on cream because it only reaches 1.8:1. If the brand's accent is darker it
-may be safe as text, in which case `.link` can be simplified. If it is lighter, keep the
-fill-only rule.
+**If you change the accent, re-check contrast in both directions.** The current maroon
+works as text on bone (12:1) but bans black text on itself (1.5:1) and cannot sit on
+black (1.5:1). A lighter accent would flip all three of those rules back the other way.
 
 ---
 
@@ -164,12 +166,12 @@ fill-only rule.
 If you extend the site, keep these or it will drift.
 
 - **The five rules above are the system.** Border, hard shadow, flat colour, mono labels,
-  pink never as text on cream.
+  maroon fills always carrying bone text.
 - **Type.** Archivo for display and body, Space Mono for technical labels. Headings are
   weight 800, uppercase, tight tracking. Emphasis inside a headline is `.mark`, a colour
   block, never a second font family and never a colour swap.
 - **Every page gets at least one full-bleed colour band** so it does not read as one long
-  cream column. `.band-pink`, `.band-yellow` or `.band-ink`.
+  bone column. `.band-brand`, `.band-sand` or `.band-ink`.
 - **Tailwind for layout only.** All colour, type, border and shadow styling comes from
   `site.css`. No hex values in markup.
 - **One label per intent.** Contact is always "Book a call". Services is always

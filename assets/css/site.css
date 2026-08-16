@@ -14,16 +14,26 @@
    ========================================================================== */
 
 :root {
-  /* ---- Palette, exactly as specified -------------------------------- */
-  --paper:      #f4f4f0;
+  /* ---- Palette: Mended brand ----------------------------------------
+     Sampled from the client's own identity (Instagram lockup, 2026-08):
+     oxblood maroon on bone, "MENDED." in heavy caps.
+
+     THE CONTRAST LOGIC IS THE OPPOSITE OF A LIGHT ACCENT. Maroon is dark:
+       maroon text on bone   12.1:1  fine, AAA
+       bone text on maroon   12.1:1  fine, AAA
+       black text on maroon   1.5:1  BANNED. Maroon fills take bone text.
+       maroon on black        1.5:1  BANNED. Nothing maroon sits on black.
+     ------------------------------------------------------------------- */
+  --paper:      #efece4;   /* bone, from the brand lockup */
   --ink:        #000000;
-  --accent:     #ff90e8;   /* TIDE pink. Fills only. 10.4:1 with black. */
-  --highlight:  #ffc900;   /* Caution yellow. 13.6:1 with black. */
-  --muted:      rgba(0, 0, 0, 0.55);   /* labels and large text */
+  --accent:     #580b0e;   /* brand maroon, sampled #56090b, lifted one step */
+  --accent-hov: #7a1418;   /* hover state, 9.2:1 with bone */
+  --sand:       #e4ded2;   /* quiet secondary surface, replaces the yellow */
+  --muted:      rgba(0, 0, 0, 0.62);   /* labels: 5.3:1 on bone, AA with margin */
   --success:    #0e8f78;
   --warning:    #b45309;
   --danger:     #dc2626;   /* fills and borders */
-  --danger-text: #b91c1c;  /* the same red darkened to 5.6:1 for small text */
+  --danger-text: #b91c1c;  /* darkened to 5.5:1 on bone for small text */
 
   /* The spec's --muted is 4.4:1 on cream, just under AA for body copy.
      Body text uses this slightly stronger value at 5.5:1. Same hue, no new
@@ -100,7 +110,7 @@ main, header, footer { position: relative; z-index: 1; }
 
 img { display: block; max-width: 100%; }
 
-::selection { background: var(--accent); color: var(--ink); }
+::selection { background: var(--accent); color: var(--paper); }
 
 /* ==========================================================================
    Typography
@@ -191,15 +201,17 @@ img { display: block; max-width: 100%; }
   max-width: 26ch;
 }
 
-/* Headline emphasis is a flat highlight block, not a colour swap, because
-   pink text on cream fails contrast. */
+/* Headline emphasis is a flat maroon block carrying bone text, matching the
+   brand tiles. Black text on maroon is 1.5:1, so the colour is set here and
+   never inherited. */
 .mark {
   background: var(--accent);
+  color: var(--paper);
   box-shadow: 0 0 0 var(--bw) var(--ink);
   padding: 0 0.12em;
 }
 
-.mark-y { background: var(--highlight); }
+.mark-y { background: var(--sand); color: var(--ink); }
 
 /* ==========================================================================
    Layout
@@ -223,9 +235,13 @@ img { display: block; max-width: 100%; }
   border-bottom: var(--bw) solid var(--ink);
 }
 
-.band-pink   { background: var(--accent); }
-.band-yellow { background: var(--highlight); }
+.band-brand  { background: var(--accent); color: var(--paper); }
+.band-brand .copy, .band-brand .lede { color: rgba(239, 236, 228, 0.8); }
+.band-brand .mono { color: var(--sand); }
+.band-sand   { background: var(--sand); color: var(--ink); }
 .band-ink    { background: var(--ink); color: var(--paper); }
+/* maroon on black is 1.5:1, so labels on black are sand, never accent */
+.band-ink .mono { color: var(--sand); }
 
 /* ==========================================================================
    Cards. 2px border, hard shadow, 4px radius.
@@ -245,12 +261,17 @@ img { display: block; max-width: 100%; }
 }
 
 .card .copy, .card .lede { color: var(--muted-body); }
+/* a light card nested inside a maroon band must not inherit the band's sand
+   labels: sand on bone is 1.1:1 */
+.card .mono { color: var(--muted); }
 
-.card-pink   { background: var(--accent); }
-.card-yellow { background: var(--highlight); }
+.card-brand  { background: var(--accent); color: var(--paper); }
+.card-brand .copy, .card-brand .lede { color: rgba(239, 236, 228, 0.8); }
+.card-brand .mono { color: var(--sand); }
+.card-sand   { background: var(--sand); color: var(--ink); }
 .card-ink    { background: var(--ink); color: var(--paper); }
-.card-ink .copy, .card-ink .lede { color: rgba(244, 244, 240, 0.74); }
-.card-ink .mono { color: rgba(244, 244, 240, 0.62); }
+.card-ink .copy, .card-ink .lede { color: rgba(239, 236, 228, 0.76); }
+.card-ink .mono { color: var(--sand); }
 
 .card-flat { box-shadow: none; }
 .card-lg { padding: clamp(24px, 3vw, 40px); }
@@ -295,10 +316,11 @@ img { display: block; max-width: 100%; }
 .btn:hover { box-shadow: var(--shadow-lg); transform: translate(-2px, -2px); }
 .btn:active { transform: translate(2px, 2px); box-shadow: var(--shadow-sm); }
 
-.btn-pink   { background: var(--accent); }
-.btn-yellow { background: var(--highlight); }
+.btn-brand  { background: var(--accent); color: var(--paper); }
+.btn-brand:hover { background: var(--accent-hov); }
+.btn-sand   { background: var(--sand); color: var(--ink); }
 .btn-ink    { background: var(--ink); color: var(--paper); }
-.btn-ink:hover { background: #171717; }
+.btn-ink:hover { background: #1a1a1a; }
 
 .btn-sm { padding: 10px 16px; font-size: 0.6875rem; }
 .btn-lg { padding: 18px 32px; font-size: 0.875rem; }
@@ -317,15 +339,26 @@ img { display: block; max-width: 100%; }
   overflow-wrap: anywhere;
 }
 
-.link:hover { box-shadow: inset 0 -1em 0 var(--accent); }
+.link:hover { box-shadow: inset 0 -1em 0 var(--accent); color: var(--paper); }
 
-/* A pink underline disappears on a pink surface, taking the link affordance
-   with it. On pink, the underline switches to yellow. */
-.card-pink .link, .band-pink .link { box-shadow: inset 0 -0.4em 0 var(--highlight); }
-.card-pink .link:hover, .band-pink .link:hover { box-shadow: inset 0 -1em 0 var(--highlight); }
-
-/* On black, keep the text light so it reads against the fill. */
-.card-ink .link, .band-ink .link { color: var(--paper); }
+/* A maroon underline disappears on a maroon surface. On brand fills the link
+   goes bone with a sand underline; on black it goes bone with maroon banned. */
+.card-brand .link, .band-brand .link {
+  color: var(--paper);
+  box-shadow: inset 0 -0.4em 0 var(--sand);
+}
+.card-brand .link:hover, .band-brand .link:hover {
+  box-shadow: inset 0 -1em 0 var(--sand);
+  color: var(--ink);
+}
+.card-ink .link, .band-ink .link {
+  color: var(--paper);
+  box-shadow: inset 0 -0.4em 0 var(--sand);
+}
+.card-ink .link:hover, .band-ink .link:hover {
+  box-shadow: inset 0 -1em 0 var(--sand);
+  color: var(--ink);
+}
 
 /* ==========================================================================
    Badges and pills
@@ -335,7 +368,7 @@ img { display: block; max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--highlight);
+  background: var(--accent);
   border: var(--bw) solid var(--ink);
   border-radius: var(--r-full);
   padding: 7px 14px;
@@ -344,11 +377,11 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--paper);
 }
 
-.badge-pink { background: var(--accent); }
-.badge-paper { background: var(--paper); }
+.badge-sand { background: var(--sand); color: var(--ink); }
+.badge-paper { background: var(--paper); color: var(--ink); }
 
 /* Status dot. Circular geometry against the blocky structure, per the spec.
    This is the one decorative dot allowed, and only where it reports real
@@ -358,7 +391,7 @@ img { display: block; max-width: 100%; }
   height: 8px;
   border-radius: var(--r-full);
   background: var(--success);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--paper);   /* reads against the maroon badge */
   flex: 0 0 auto;
   position: relative;
 }
@@ -385,7 +418,7 @@ img { display: block; max-width: 100%; }
 .marquee {
   overflow: hidden;
   background: var(--accent);
-  color: var(--ink);
+  color: var(--paper);   /* bone on maroon, 12:1. Black on maroon is banned. */
   border-top: var(--bw) solid var(--ink);
   border-bottom: var(--bw) solid var(--ink);
   padding-block: 14px;
@@ -482,8 +515,9 @@ img { display: block; max-width: 100%; }
 .module:hover .copy,
 .module:focus-visible .copy { color: rgba(244, 244, 240, 0.76); }
 
+/* the sweep is black, and maroon on black is 1.5:1, so hover labels go sand */
 .module:hover .mono,
-.module:focus-visible .mono { color: var(--accent); }
+.module:focus-visible .mono { color: var(--sand); }
 
 .module-num {
   font-family: 'Space Mono', ui-monospace, monospace;
@@ -494,7 +528,7 @@ img { display: block; max-width: 100%; }
   transition: color 0.35s var(--ease);
 }
 
-.module:hover .module-num { color: var(--accent); }
+.module:hover .module-num { color: var(--sand); }
 
 .module-arrow {
   margin-top: auto;
@@ -537,7 +571,7 @@ img { display: block; max-width: 100%; }
 }
 
 .stat-bar.is-in { transform: scaleX(1); }
-.stat-bar-y { background: var(--highlight); }
+.stat-bar-2 { background: var(--sand); }
 
 /* ==========================================================================
    Pipeline. Horizontal rail, signal dot tracing the stages.
@@ -585,7 +619,7 @@ img { display: block; max-width: 100%; }
 .pipeline-node {
   width: 18px;
   height: 18px;
-  background: var(--highlight);
+  background: var(--accent);
   border: var(--bw) solid var(--ink);
   border-radius: var(--r-full);
 }
@@ -628,7 +662,7 @@ img { display: block; max-width: 100%; }
   border: var(--bw) solid var(--ink);
   border-radius: var(--r-sm);
   box-shadow: var(--shadow);
-  background: var(--highlight);
+  background: var(--sand);
   color: var(--ink);
   aspect-ratio: 4 / 3;
   /* Explicit width is required. With aspect-ratio and a min-height but no
@@ -699,7 +733,11 @@ img { display: block; max-width: 100%; }
 }
 
 .acc > summary::-webkit-details-marker { display: none; }
-.acc[open] > summary { border-bottom: var(--bw) solid var(--ink); background: var(--highlight); }
+.acc[open] > summary {
+  border-bottom: var(--bw) solid var(--ink);
+  background: var(--accent);
+  color: var(--paper);   /* black on maroon fails, so the open header inverts */
+}
 
 .acc-icon {
   flex: 0 0 auto;
@@ -774,11 +812,12 @@ img { display: block; max-width: 100%; }
   display: grid;
   place-items: center;
   background: var(--accent);
+  color: var(--paper);   /* bone initials on maroon, mirroring the brand lockup */
   border: var(--bw) solid var(--ink);
-  border-radius: var(--r-sm);
+  border-radius: var(--r-full);   /* the brand mark is a circle */
   font-family: 'Archivo', sans-serif;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: -0.04em;
   transition: transform 0.3s var(--ease);
 }
@@ -830,7 +869,7 @@ img { display: block; max-width: 100%; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--highlight);
+  background: var(--sand);
   border: var(--bw) solid var(--ink);
   border-radius: var(--r-sm);
   box-shadow: var(--shadow-sm);
@@ -993,25 +1032,25 @@ img { display: block; max-width: 100%; }
    Placeholder marker. Loud on purpose so nothing half-finished ships.
    ========================================================================== */
 
-/* Solid fill, not stripes. Striped backgrounds put text on alternating light
-   and dark bands, which is illegible at body size. The dashed border and the
-   yellow carry the "unfinished" signal on their own. 13.6:1 with black. */
+/* Placeholder marker: sand fill, dashed maroon border, maroon text (10.7:1).
+   Loud enough to never ship unnoticed, legible at any size. */
 .tofill {
-  background: var(--highlight);
-  border: var(--bw) dashed var(--ink);
+  background: var(--sand);
+  border: var(--bw) dashed var(--accent);
   border-radius: var(--r-sm);
   padding: 6px 10px;
-  color: var(--ink);
+  color: var(--accent);
   display: inline-block;
   max-width: 100%;
 }
 
-/* A placeholder always paints black on yellow. Without these, a .tofill placed
-   inside a dark component loses the colour war to rules like `.card-ink .copy`
-   and ends up cream on yellow, which is 1.3:1. */
+/* A placeholder always paints maroon on sand. Without these, a .tofill inside
+   a dark component loses the colour war to rules like `.card-ink .copy` and
+   ends up bone on sand, which is unreadable. */
 .tofill.copy, .tofill.lede,
-.card-ink .tofill, .band-ink .tofill,
-.card-ink .tofill.copy, .band-ink .tofill.copy { color: var(--ink); }
+.card-ink .tofill, .band-ink .tofill, .card-brand .tofill, .band-brand .tofill,
+.card-ink .tofill.copy, .band-ink .tofill.copy,
+.card-brand .tofill.copy, .band-brand .tofill.copy { color: var(--accent); }
 
 /* ==========================================================================
    Reveal. Hidden states scoped to html.js so the page survives without
@@ -1050,8 +1089,10 @@ img { display: block; max-width: 100%; }
    Focus. Pink offset shadow plus a border change, per the spec.
    ========================================================================== */
 
+/* currentColor adapts the ring to its surface: black on bone, bone on maroon.
+   A fixed ink outline would vanish on the maroon footer and marquee. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: var(--bw) solid var(--ink);
+  outline: var(--bw) solid currentColor;
   outline-offset: 2px;
   box-shadow: 4px 4px 0 var(--accent);
 }
@@ -1060,8 +1101,8 @@ img { display: block; max-width: 100%; }
   position: fixed;
   left: 16px; top: -100px;
   z-index: 200;
-  background: var(--highlight);
-  color: var(--ink);
+  background: var(--accent);
+  color: var(--paper);
   border: var(--bw) solid var(--ink);
   box-shadow: var(--shadow);
   padding: 12px 20px;
@@ -1081,11 +1122,15 @@ img { display: block; max-width: 100%; }
    Footer
    ========================================================================== */
 
+/* The footer is the brand block: maroon, bone type, matching the Instagram
+   tiles. It cannot be black because maroon accents on black are 1.5:1. */
 .site-footer {
-  background: var(--ink);
+  background: var(--accent);
   color: var(--paper);
   border-top: var(--bw) solid var(--ink);
 }
+
+.site-footer .tofill { color: var(--accent); }
 
 .footer-head {
   display: inline-block;
@@ -1094,7 +1139,7 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--sand);
   margin: 0 0 10px;
   /* when the head is itself a link it is a standalone target, so it needs
      the 24px minimum height rather than the 16px the type alone gives */
@@ -1102,18 +1147,18 @@ img { display: block; max-width: 100%; }
   text-decoration: none;
 }
 
-a.footer-head:hover { color: var(--highlight); }
+a.footer-head:hover { color: #ffffff; }
 
 .footer-link {
   display: block;
-  color: rgba(244, 244, 240, 0.72);
+  color: rgba(239, 236, 228, 0.82);
   text-decoration: none;
   padding: 6px 0;
   font-size: 0.9375rem;
   transition: color 0.2s var(--ease);
 }
 
-.footer-link:hover { color: var(--highlight); }
+.footer-link:hover { color: #ffffff; }
 
 /* ==========================================================================
    Print

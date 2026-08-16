@@ -9,7 +9,7 @@ ban and no-invented-evidence rules in `BUILD-SPEC.md` still apply in full.
 
 Two previous designs were rejected. The first was a dark card grid, the second a dark
 editorial layout. Both read as serious and both read as generic. This one is **fun**:
-neo-brutalist, high contrast, paper cream, hot pink and caution yellow, heavy black
+neo-brutalist, high contrast, bone paper and brand maroon, heavy black
 outlines, hard offset shadows and a lot of motion.
 
 **The look is playful. The words are not.** Mended sells to a gym or studio owner making a
@@ -29,20 +29,28 @@ for `assets/js/site.js`, which supplies every interaction listed below.
 
 1. Every container gets a **2px solid black border**.
 2. Depth is a **hard offset shadow**, `4px 4px 0 #000`. Never a blur, never a gradient.
-3. Backgrounds are **flat**: cream, pink, yellow or black. No gradients anywhere.
+3. Backgrounds are **flat**: bone, maroon, sand or black. No gradients anywhere.
 4. Technical labels are **uppercase mono** with `0.1em` tracking. Use `.mono`.
-5. **Pink is a fill, never text on cream.** `#ff90e8` on `#f4f4f0` is 1.8:1 and fails
-   badly. Links are black with a pink underline via `.link`. To emphasise a word in a
-   headline use `.mark`, which sets it on a pink block, not `color`.
+5. **Maroon fills take bone text, always.** The brand maroon is dark, so the contrast
+   logic is the reverse of a light accent:
+   - maroon text on bone: 12:1, fine. Links are `.link`, black text on a maroon underline.
+   - bone text on maroon: 12:1, fine. Every maroon fill (`.mark`, `.btn-brand`,
+     `.band-brand`, the marquee, the footer) sets `color` to bone itself.
+   - **black text on maroon: 1.5:1, banned.**
+   - **maroon on black: 1.5:1, banned.** Nothing maroon sits on a black surface, which is
+     why the footer is maroon rather than black and labels on `.band-ink` are sand.
 
 ### Palette
 
-`--paper #f4f4f0` · `--ink #000` · `--accent #ff90e8` · `--highlight #ffc900`
-`--success #0e8f78` · `--danger #dc2626`
+The client's real brand, sampled from their identity lockup ("MENDED." in oxblood on bone):
 
-Yellow is for badges, stickers and open accordion headers. Pink is for the marquee, the
-primary CTA, stat bars and highlight blocks. Black is for the footer, the module sweep and
-every border.
+`--paper #efece4` (bone) · `--ink #000` · `--accent #580b0e` (maroon) ·
+`--accent-hov #7a1418` · `--sand #e4ded2` · `--success #0e8f78` · `--danger #dc2626`
+
+Maroon is the brand voice: the marquee, primary CTAs, `.mark` blocks, open accordion
+headers, badges, pipeline nodes and the footer. Sand is the quiet secondary surface:
+tiles, secondary cards, the placeholder marker. Black is borders, the module sweep and
+`.band-ink`. There is no yellow and no pink anywhere.
 
 ### Type
 
@@ -72,19 +80,19 @@ Fonts:
 | Class | What it is |
 |---|---|
 | `.wrap` `.sec` | 1280px container, 112px desktop section padding |
-| `.band` `.band-pink` `.band-yellow` `.band-ink` | full-bleed colour block with top and bottom rules |
-| `.card` `.card-pink` `.card-yellow` `.card-ink` `.card-hover` | bordered box with hard shadow |
-| `.btn` `.btn-pink` `.btn-yellow` `.btn-ink` | mono uppercase button, presses down on click |
-| `.link` | black text, pink underline that fills on hover |
-| `.badge` `.dot` | yellow pill, pulsing status dot |
-| `.marquee` + `.marquee-track` + `.marquee-group` | pink scrolling bar, 28s |
+| `.band` `.band-brand` `.band-sand` `.band-ink` | full-bleed colour block with top and bottom rules |
+| `.card` `.card-brand` `.card-sand` `.card-ink` `.card-hover` | bordered box with hard shadow |
+| `.btn` `.btn-brand` `.btn-sand` `.btn-ink` | mono uppercase button, presses down on click |
+| `.link` | black text, maroon underline that fills on hover |
+| `.badge` `.dot` | maroon pill with bone text, pulsing status dot |
+| `.marquee` + `.marquee-track` + `.marquee-group` | maroon scrolling bar, bone text, 28s |
 | `.modules` `.modules-2/3/4` + `.module` | grid divided by 2px black lines, black sweep on hover |
 | `.stat-num` `.stat-bar` | counter and its growing bar |
 | `.pipeline` `.pipeline-rail` `.pipeline-signal` `.pipeline-node` | the process rail with a running signal dot |
 | `.filters` `.filter` `.tile` `.tile-label` | filterable gallery |
-| `.acc` `.acc-icon` `.acc-body` | accordion, yellow header when open |
+| `.acc` `.acc-icon` `.acc-body` | accordion, maroon header with bone text when open |
 | `.field` `.input` `.select` `.textarea` `.check` | forms |
-| `.tofill` | loud hazard-stripe placeholder |
+| `.tofill` | loud sand-and-maroon placeholder, dashed border |
 | `.reveal` | scroll reveal, stagger with `style="--d:120ms"` |
 | `.magnetic` | button pulls toward the cursor |
 | `data-tilt` | card tilts toward the cursor |
@@ -103,22 +111,23 @@ Fonts:
 ### Fixed furniture
 
 - `<div class="scroll-progress" data-progress></div>` first in body.
-- Sticky header, 72px, cream, 2px bottom border. Wordmark is a pink `.wordmark-badge`
+- Sticky header, 72px, bone, 2px bottom border. Wordmark is a round maroon `.wordmark-badge`
   reading `MC` with the shimmer overlay and the 8 degree hover rotation, then
   `MENDED` in Archivo 800 uppercase. Nav is mono uppercase. Header CTA is
-  `.btn .btn-pink .btn-sm` reading **Book a call**.
-- Footer is `.site-footer`, black, four columns, same links as `_v2/index.html`.
+  `.btn .btn-brand .btn-sm` reading **Book a call**.
+- Footer is `.site-footer`, maroon with bone type, four columns, same links as
+  `_v2/index.html`. It is never black, because maroon on black is 1.5:1.
 
 ### Home page, in order
 
-1. **Hero.** Cream. A yellow `.badge` with a `.dot` reading a real status line. Then the
+1. **Hero.** Bone. A maroon `.badge` with a `.dot` reading a real status line. Then the
    headline at `.t-hero`, uppercase, with **BUSINESS** wrapped in `.mark` so it sits on a
-   pink block. Then the `.lede`, then two buttons, `.btn .btn-pink .btn-lg .magnetic`
+   maroon block. Then the `.lede`, then two buttons, `.btn .btn-brand .btn-lg .magnetic`
    reading **Book a call** and `.btn .btn-lg` reading **See the services**. Two absolutely
    positioned floating `.card` badges at the sides on desktop, hidden below 900px.
    No image needed. The type and colour carry it.
 
-2. **Marquee.** Pink band. The verticals Mended serves, separated by `✦`. One
+2. **Marquee.** Maroon band, bone text. The verticals Mended serves, separated by `✦`. One
    `.marquee-group` in the markup, the script clones it for the seamless loop.
 
 3. **Stats.** Four `.modules-4` cells with counters.
@@ -133,14 +142,14 @@ Fonts:
    `[data-gallery-count]` live region.
 
 6. **The difference.** A `.band-ink` full-bleed black section. Two columns: what most
-   consultants sell, what Mended does. White type on black, pink `.mono` labels.
+   consultants sell, what Mended does. Bone type on black, sand `.mono` labels.
 
 7. **How it works.** The `.pipeline`. Three stages named by verb: Diagnose, Rebuild,
    Hand over, with `.pipeline-node` markers on the rail and the signal dot running.
 
 8. **Markets.** Three `.card` blocks, Australia, Bali, Singapore, each with its operating
    pressure and a `.link` to the localised page. Vary the card colours: one cream, one
-   yellow, one pink.
+   sand, one maroon.
 
 9. **Client result.** A large `.card-lg` holding a pull quote. Placeholder, `.tofill`,
    with a TODO comment. Do not invent a testimonial.
@@ -148,7 +157,7 @@ Fonts:
 10. **FAQ.** Six `.acc` accordions, questions and answers verbatim from `_v2/index.html`
     so the `FAQPage` JSON-LD stays accurate.
 
-11. **Close.** A `.band-pink` full-bleed block, big headline, one `.btn .btn-ink .btn-lg
+11. **Close.** A `.band-brand` full-bleed block, big headline, one `.btn .btn-sand .btn-lg
     .magnetic` reading **Book a call**.
 
 ---
@@ -196,7 +205,7 @@ page which is `loading="eager" fetchpriority="high"`.
 ## 5. Hard fails
 
 - Any em dash or en dash anywhere, including comments, alt text and JSON-LD.
-- Pink or yellow used as text colour on cream.
+- Black text on a maroon fill, or maroon text or labels on a black surface.
 - Any gradient, any blurred shadow, any container without a 2px black border.
 - Any invented client name, business name, testimonial, quote, logo, statistic or founder
   detail. Unknowns are `[bracket tokens]` inside `.tofill` with a TODO comment above.
