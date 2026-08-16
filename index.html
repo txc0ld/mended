@@ -188,8 +188,12 @@
               </text>
             </g>
 
-            <path d="M 190 150 C 92 188 92 332 184 366" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="butt" marker-end="url(#hero-cycle-arrow)"/>
-            <path d="M 330 370 C 428 332 428 188 336 154" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="butt" marker-end="url(#hero-cycle-arrow)"/>
+            <!-- True circular arcs, centre 260,260 radius 150, concentric with the
+                 ring and roundel. Left arc runs top to bottom (234deg to 130deg),
+                 right arc bottom to top (54deg to -50deg), leaving symmetric gaps
+                 for the node chips. Endpoints are computed, not eyeballed. -->
+            <path d="M 171.8 138.7 A 150 150 0 0 0 163.6 374.9" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
+            <path d="M 348.2 381.3 A 150 150 0 0 0 356.4 145.1" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
 
             <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
             <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
