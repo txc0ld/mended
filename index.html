@@ -155,66 +155,27 @@
     <div class="mt-auto pt-8"><a class="btn btn-brand btn-lg w-full" href="contact.html">Book a call</a></div>
   </nav>
   <main id="main">
-    <section class="sec hero-stage min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
-      <!-- Animated background: slow maroon flow lines drawn on a canvas by
-           site.js. Bespoke rather than an embedded scene so the colour is the
-           exact brand token and the motion is deterministic. Only runs on
-           fine-pointer desktops, never under prefers-reduced-motion, and
-           pauses whenever the hero is off screen or the tab is hidden. -->
+    <section class="sec hero-stage hero-dark min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
+      <!-- Animated background: the Auralis noise shader ported to vanilla WebGL
+           in site.js, running the brand maroons over a near-black field with
+           film grain. Only runs on fine-pointer desktops, never under
+           prefers-reduced-motion, and pauses whenever the hero is off screen
+           or the tab is hidden. Without it the hero is a flat dark stage. -->
       <div class="hero-motion" aria-hidden="true">
-        <canvas class="hero-motion__canvas" data-waves></canvas>
+        <canvas class="hero-motion__canvas" data-aurora></canvas>
       </div>
-      <div class="wrap hero-split relative py-8 min-[900px]:grid min-[900px]:grid-cols-12 min-[900px]:items-center min-[900px]:gap-8 min-[900px]:py-12">
-        <div class="max-w-[1100px] relative z-[1] min-[900px]:col-span-7">
-          <div class="badge reveal">Working across Australia, Bali and Singapore</div>
-          <h1 class="display t-hero mt-7 reveal" style="--d:80ms" id="home-heading">
+      <div class="wrap relative z-[1] py-6 min-[900px]:py-8">
+        <div class="max-w-[880px] mx-auto flex flex-col items-center text-center">
+          <div class="badge badge-paper reveal">Working across Australia, Bali and Singapore</div>
+          <h1 class="display t-hero mt-6 reveal" style="--d:80ms" id="home-heading">
             <span class="block">You built the studio.</span>
             <span class="block">Now build the <span class="mark">business.</span></span>
           </h1>
-          <p class="lede mt-7 reveal" style="--d:160ms">Mended is a business consultancy for owner-operated wellness and fitness businesses across Australia, Bali and Singapore.</p>
-          <div class="flex flex-wrap gap-4 mt-8 reveal" style="--d:240ms">
+          <p class="lede mt-6 reveal" style="--d:160ms">Mended is a business consultancy for owner-operated wellness and fitness businesses across Australia, Bali and Singapore.</p>
+          <div class="flex flex-wrap justify-center gap-4 mt-8 reveal" style="--d:240ms">
             <a class="btn btn-brand btn-lg magnetic" href="contact.html">Book a call</a>
             <a class="btn btn-lg" href="services.html">See the services</a>
           </div>
-        </div>
-        <div class="hero-cycle relative hidden min-[900px]:col-span-5 min-[900px]:block reveal" style="--d:320ms">
-          <div class="card card-sand hero-cycle__sticker hero-cycle__sticker-top" aria-hidden="true"><p class="mono mono-bold">Operator to operator</p></div>
-          <div class="card card-brand hero-cycle__sticker hero-cycle__sticker-bottom" aria-hidden="true"><p class="mono mono-bold">The whole operation</p></div>
-          <svg viewBox="0 0 520 520" width="100%" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <path id="hero-cycle-text-path" d="M 260 44 A 216 216 0 1 1 259.9 44"/>
-              <!-- Arrowhead as a marker: it rides the path end and orients to the
-                   tangent automatically, so it can never sit misaligned. -->
-              <marker id="hero-cycle-arrow" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="2.4" markerHeight="2.4" orient="auto">
-                <path d="M 0 0.6 L 9.4 5 L 0 9.4 Z" fill="var(--accent)"/>
-              </marker>
-            </defs>
-            <circle cx="260" cy="260" r="244" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="2 10"/>
-            <g class="hero-cycle__spin">
-              <text class="hero-cycle__ring-text">
-                <textPath href="#hero-cycle-text-path" startOffset="0" textLength="1357" lengthAdjust="spacing">ELEVATING YOUR WELLNESS BUSINESS &#10022; MENDED CONSULTING &#10022;</textPath>
-              </text>
-            </g>
-
-            <!-- True circular arcs, centre 260,260 radius 150, concentric with the
-                 ring and roundel. Left arc runs top to bottom (234deg to 130deg),
-                 right arc bottom to top (54deg to -50deg), leaving symmetric gaps
-                 for the node chips. Endpoints are computed, not eyeballed. -->
-            <path d="M 171.8 138.7 A 150 150 0 0 0 163.6 374.9" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
-            <path d="M 348.2 381.3 A 150 150 0 0 0 356.4 145.1" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
-
-            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
-            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
-            <text x="260" y="110" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">BUSINESS</text>
-
-            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
-            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
-            <text x="260" y="412" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">WELLNESS</text>
-
-            <circle cx="260" cy="260" r="56" fill="var(--ink)" transform="translate(5 5)"/>
-            <circle cx="260" cy="260" r="56" fill="var(--accent)" stroke="var(--ink)" stroke-width="2"/>
-            <text x="260" y="263" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__mark">M.</text>
-          </svg>
         </div>
       </div>
     </section>
@@ -375,7 +336,51 @@
     </section>
     <section class="sec" id="approach" aria-labelledby="process-heading">
       <div class="wrap">
-        <h2 class="display t-sec max-w-4xl reveal" id="process-heading">Work out what is wrong. Fix it. Leave it usable.</h2>
+        <div class="grid grid-cols-1 gap-10 min-[900px]:grid-cols-12 min-[900px]:gap-8 min-[900px]:items-center">
+          <div class="min-[900px]:col-span-7">
+            <h2 class="display t-sec reveal" id="process-heading">Work out what is wrong. Fix it. Leave it usable.</h2>
+            <p class="lede mt-6 reveal" style="--d:80ms">The same cycle every time: the business carries the wellness work, and the wellness work feeds the business.</p>
+          </div>
+          <div class="hero-cycle relative hidden max-w-[440px] w-full justify-self-center min-[900px]:col-span-5 min-[900px]:block reveal" style="--d:160ms">
+            <div class="card card-sand hero-cycle__sticker hero-cycle__sticker-top" aria-hidden="true"><p class="mono mono-bold">Operator to operator</p></div>
+          <div class="card card-brand hero-cycle__sticker hero-cycle__sticker-bottom" aria-hidden="true"><p class="mono mono-bold">The whole operation</p></div>
+          <svg viewBox="0 0 520 520" width="100%" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <path id="hero-cycle-text-path" d="M 260 44 A 216 216 0 1 1 259.9 44"/>
+              <!-- Arrowhead as a marker: it rides the path end and orients to the
+                   tangent automatically, so it can never sit misaligned. -->
+              <marker id="hero-cycle-arrow" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="2.4" markerHeight="2.4" orient="auto">
+                <path d="M 0 0.6 L 9.4 5 L 0 9.4 Z" fill="var(--accent)"/>
+              </marker>
+            </defs>
+            <circle cx="260" cy="260" r="244" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="2 10"/>
+            <g class="hero-cycle__spin">
+              <text class="hero-cycle__ring-text">
+                <textPath href="#hero-cycle-text-path" startOffset="0" textLength="1357" lengthAdjust="spacing">ELEVATING YOUR WELLNESS BUSINESS &#10022; MENDED CONSULTING &#10022;</textPath>
+              </text>
+            </g>
+
+            <!-- True circular arcs, centre 260,260 radius 150, concentric with the
+                 ring and roundel. Left arc runs top to bottom (234deg to 130deg),
+                 right arc bottom to top (54deg to -50deg), leaving symmetric gaps
+                 for the node chips. Endpoints are computed, not eyeballed. -->
+            <path d="M 171.8 138.7 A 150 150 0 0 0 163.6 374.9" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
+            <path d="M 348.2 381.3 A 150 150 0 0 0 356.4 145.1" fill="none" stroke="var(--accent)" stroke-width="16" stroke-linecap="round" marker-end="url(#hero-cycle-arrow)"/>
+
+            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
+            <rect x="178" y="82" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="110" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">BUSINESS</text>
+
+            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--ink)" transform="translate(4 4)"/>
+            <rect x="178" y="384" width="164" height="54" rx="4" fill="var(--sand)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="412" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__node-text">WELLNESS</text>
+
+            <circle cx="260" cy="260" r="56" fill="var(--ink)" transform="translate(5 5)"/>
+            <circle cx="260" cy="260" r="56" fill="var(--accent)" stroke="var(--ink)" stroke-width="2"/>
+            <text x="260" y="263" text-anchor="middle" dominant-baseline="middle" class="hero-cycle__mark">M.</text>
+          </svg>
+          </div>
+        </div>
         <div class="pipeline mt-14">
           <div class="pipeline-rail" aria-hidden="true">
             <span class="pipeline-signal"></span>

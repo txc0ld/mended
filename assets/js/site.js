@@ -421,72 +421,144 @@
   }
 
   /* ------------------------------------------------------------------
-   * 12. Hero motion background: maroon flow lines
-   * A field of slow sine currents drawn in the exact brand maroon, 2px
-   * strokes to match the system's line weight. The CSS decides whether
-   * the layer exists at all (fine-pointer desktop, motion allowed); this
-   * only draws when the layer is displayed, and pauses whenever the hero
-   * leaves the viewport or the tab is hidden. ~30fps, one 2d canvas.
+   * 12. Hero motion background: the Auralis shader
+   * A vanilla WebGL port of the Auralis component: simplex-noise field,
+   * a glow pass and film grain, running the brand maroons over the dark
+   * hero stage. The GLSL is the component's, verbatim; the React wrapper
+   * is replaced by this site's gating: the CSS decides whether the layer
+   * exists at all (fine-pointer desktop, motion allowed), and the loop
+   * pauses whenever the hero leaves the viewport or the tab is hidden.
+   * Colours are read from the live CSS tokens, so a rebrand re-tints the
+   * shader with no code change.
    * ---------------------------------------------------------------- */
   function initMotionBg() {
     var layer = document.querySelector('.hero-motion');
-    var canvas = layer && layer.querySelector('[data-waves]');
+    var canvas = layer && layer.querySelector('[data-aurora]');
     if (!layer || !canvas) return;
     if (reduce) return;
     if (getComputedStyle(layer).display === 'none') return;
 
-    var ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    var gl = canvas.getContext('webgl', { antialias: true });
+    if (!gl) return;
 
-    var MAROON = '88, 11, 14';           // --accent as rgb components
-    var LINES = 9;
-    var w = 0, h = 0;
+    var VERT =
+      'attribute vec2 position;varying vec2 vUv;' +
+      'void main(){vUv=position*0.5+0.5;gl_Position=vec4(position,0.0,1.0);}';
+
+    var FRAG =
+      'precision highp float;varying vec2 vUv;' +
+      'uniform vec2 u_resolution;uniform float u_time;uniform float u_grain;uniform vec3 u_colors[3];' +
+      'vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}' +
+      'vec2 mod289(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}' +
+      'vec3 permute(vec3 x){return mod289(((x*34.0)+1.0)*x);}' +
+      'float snoise(vec2 v){' +
+      'const vec4 C=vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);' +
+      'vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);' +
+      'vec2 i1=(x0.x>x0.y)?vec2(1.0,0.0):vec2(0.0,1.0);' +
+      'vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod289(i);' +
+      'vec3 p=permute(permute(i.y+vec3(0.0,i1.y,1.0))+i.x+vec3(0.0,i1.x,1.0));' +
+      'vec3 m=max(0.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.0);' +
+      'm=m*m;m=m*m;' +
+      'vec3 x=2.0*fract(p*C.www)-1.0;vec3 h=abs(x)-0.5;vec3 ox=floor(x+0.5);vec3 a0=x-ox;' +
+      'm*=1.79284291400159-0.85373472095314*(a0*a0+h*h);' +
+      'vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;' +
+      'return 130.0*dot(m,g);}' +
+      'void main(){' +
+      'vec2 uv=vUv;float ratio=u_resolution.x/u_resolution.y;' +
+      'vec2 p=uv*vec2(ratio,1.0);float t=u_time*0.2;' +
+      'float n1=snoise(p*0.5+t);' +
+      'float n2=snoise(p*0.9-t*0.5+n1);' +
+      'float light=pow(abs(n2),2.5)*0.5;' +
+      'vec3 col=vec3(0.02,0.01,0.01);' +
+      'col+=u_colors[0]*smoothstep(0.1,1.0,n1)*0.5;' +
+      'col+=u_colors[1]*light;' +
+      'float grain=fract(sin(dot(uv,vec2(12.9898,78.233)))*43758.5453+u_time);' +
+      'col+=(grain-0.5)*u_grain*0.5;' +
+      'float dist=length(uv-0.5);' +
+      'col*=smoothstep(1.2,0.2,dist);' +
+      'gl_FragColor=vec4(col,1.0);}';
+
+    function shader(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      return s;
+    }
+
+    var program = gl.createProgram();
+    gl.attachShader(program, shader(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+    gl.useProgram(program);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var pos = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(pos);
+    gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+    var locRes = gl.getUniformLocation(program, 'u_resolution');
+    var locTime = gl.getUniformLocation(program, 'u_time');
+    var locGrain = gl.getUniformLocation(program, 'u_grain');
+    var locColors = gl.getUniformLocation(program, 'u_colors');
+
+    // Colours come from the live tokens so a rebrand re-tints the shader.
+    // u_colors[0] is the broad wash, u_colors[1] the glow: the glow gets a
+    // brightness lift because the shader halves it, and the deep brand
+    // maroon would otherwise barely register over the dark field.
+    function token(name) {
+      var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      var h = v.replace('#', '');
+      return [parseInt(h.slice(0, 2), 16) / 255,
+              parseInt(h.slice(2, 4), 16) / 255,
+              parseInt(h.slice(4, 6), 16) / 255];
+    }
+
+    function lift(rgb, k) {
+      return [Math.min(1, rgb[0] * k), Math.min(1, rgb[1] * k), Math.min(1, rgb[2] * k)];
+    }
+
+    var accent = token('--accent');
+    var hov = token('--accent-hov');
+    var colors = new Float32Array([].concat(lift(accent, 1.6), lift(hov, 2.4), accent));
+
+    var SPEED = 0.3;
+    var GRAIN = 0.5;
 
     function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       var r = layer.getBoundingClientRect();
-      w = Math.max(1, Math.round(r.width));
-      h = Math.max(1, Math.round(r.height));
-      canvas.width = w;                   // dpr 1 on purpose: background wash
-      canvas.height = h;
+      canvas.width = Math.max(1, Math.round(r.width * dpr));
+      canvas.height = Math.max(1, Math.round(r.height * dpr));
+      gl.viewport(0, 0, canvas.width, canvas.height);
     }
 
-    var t = 0;
-    function draw() {
-      ctx.clearRect(0, 0, w, h);
-      ctx.lineWidth = 2;
-      for (var i = 0; i < LINES; i++) {
-        var base = h * (0.08 + (0.84 * i) / (LINES - 1));
-        var amp1 = 26 + 14 * Math.sin(i * 1.7);
-        var amp2 = 12 + 6 * Math.cos(i * 2.3);
-        var alpha = 0.08 + 0.08 * ((i % 3) + 1) / 3;
-        ctx.strokeStyle = 'rgba(' + MAROON + ',' + alpha.toFixed(3) + ')';
-        ctx.beginPath();
-        for (var x = -20; x <= w + 20; x += 14) {
-          var y = base +
-            amp1 * Math.sin(x * 0.0042 + t * 0.5 + i * 1.9) +
-            amp2 * Math.sin(x * 0.011 - t * 0.32 + i * 0.7);
-          if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
+    function draw(t) {
+      gl.uniform2f(locRes, canvas.width, canvas.height);
+      gl.uniform1f(locTime, t * 0.001 * SPEED);
+      gl.uniform1f(locGrain, GRAIN);
+      gl.uniform3fv(locColors, colors);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 
-    var running = false, inView = true, raf = null, last = 0;
-    var FRAME = 1000 / 30;
+    var running = false, inView = true, raf = null, lost = false;
+
+    canvas.addEventListener('webglcontextlost', function (e) {
+      e.preventDefault();
+      lost = true;   // static dark stage remains; no recovery attempt
+    });
 
     function loop(now) {
       raf = null;
-      if (!running) return;
-      if (now - last >= FRAME) {
-        last = now;
-        t += 0.016;
-        draw();
-      }
+      if (!running || lost) return;
+      draw(now);
       raf = window.requestAnimationFrame(loop);
     }
 
     function setRunning(on) {
-      on = on && inView && !document.hidden;
+      on = on && inView && !document.hidden && !lost;
       if (on === running) return;
       running = on;
       if (running && !raf) raf = window.requestAnimationFrame(loop);
@@ -500,17 +572,17 @@
     document.addEventListener('visibilitychange', function () { setRunning(true); });
 
     var resizeRaf = null;
-    window.addEventListener('resize', function () {
+    new ResizeObserver(function () {
       if (resizeRaf) return;
       resizeRaf = window.requestAnimationFrame(function () {
         resizeRaf = null;
         resize();
-        draw();
+        if (!running) draw(performance.now());
       });
-    });
+    }).observe(layer);
 
     resize();
-    draw();
+    draw(performance.now());
     setRunning(true);
   }
 
