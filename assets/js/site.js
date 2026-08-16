@@ -425,9 +425,9 @@
    * A vanilla WebGL port of the Auralis component: simplex-noise field,
    * a glow pass and film grain, running the brand maroons over the dark
    * hero stage. The GLSL is the component's, verbatim; the React wrapper
-   * is replaced by this site's gating: the CSS decides whether the layer
-   * exists at all (fine-pointer desktop, motion allowed), and the loop
-   * pauses whenever the hero leaves the viewport or the tab is hidden.
+   * is replaced by this site's gating: it runs on every device except
+   * under prefers-reduced-motion, the DPR cap keeps phones cheap, and the
+   * loop pauses whenever the hero leaves the viewport or the tab hides.
    * Colours are read from the live CSS tokens, so a rebrand re-tints the
    * shader with no code change.
    * ---------------------------------------------------------------- */

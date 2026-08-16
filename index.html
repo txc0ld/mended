@@ -158,16 +158,15 @@
     <section class="sec hero-stage hero-dark min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
       <!-- Animated background: the Auralis noise shader ported to vanilla WebGL
            in site.js, running the brand maroons over a near-black field with
-           film grain. Only runs on fine-pointer desktops, never under
-           prefers-reduced-motion, and pauses whenever the hero is off screen
-           or the tab is hidden. Without it the hero is a flat dark stage. -->
+           film grain. Runs on every device, never under prefers-reduced-motion,
+           and pauses whenever the hero is off screen or the tab is hidden.
+           Without it the hero is a flat dark stage. -->
       <div class="hero-motion" aria-hidden="true">
         <canvas class="hero-motion__canvas" data-aurora></canvas>
       </div>
       <div class="wrap relative z-[1] py-6 min-[900px]:py-8">
         <div class="max-w-[880px] mx-auto flex flex-col items-center text-center">
-          <div class="badge badge-paper reveal">Working across Australia, Bali and Singapore</div>
-          <h1 class="display t-hero mt-6 reveal" style="--d:80ms" id="home-heading">
+          <h1 class="display t-hero reveal" id="home-heading">
             <span class="block">You built the studio.</span>
             <span class="block">Now build the <span class="mark">business.</span></span>
           </h1>
