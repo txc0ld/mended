@@ -421,7 +421,101 @@
   }
 
   /* ------------------------------------------------------------------
-   * 12. Odds and ends
+   * 12. Hero motion background: maroon flow lines
+   * A field of slow sine currents drawn in the exact brand maroon, 2px
+   * strokes to match the system's line weight. The CSS decides whether
+   * the layer exists at all (fine-pointer desktop, motion allowed); this
+   * only draws when the layer is displayed, and pauses whenever the hero
+   * leaves the viewport or the tab is hidden. ~30fps, one 2d canvas.
+   * ---------------------------------------------------------------- */
+  function initMotionBg() {
+    var layer = document.querySelector('.hero-motion');
+    var canvas = layer && layer.querySelector('[data-waves]');
+    if (!layer || !canvas) return;
+    if (reduce) return;
+    if (getComputedStyle(layer).display === 'none') return;
+
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var MAROON = '88, 11, 14';           // --accent as rgb components
+    var LINES = 9;
+    var w = 0, h = 0;
+
+    function resize() {
+      var r = layer.getBoundingClientRect();
+      w = Math.max(1, Math.round(r.width));
+      h = Math.max(1, Math.round(r.height));
+      canvas.width = w;                   // dpr 1 on purpose: background wash
+      canvas.height = h;
+    }
+
+    var t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.lineWidth = 2;
+      for (var i = 0; i < LINES; i++) {
+        var base = h * (0.08 + (0.84 * i) / (LINES - 1));
+        var amp1 = 26 + 14 * Math.sin(i * 1.7);
+        var amp2 = 12 + 6 * Math.cos(i * 2.3);
+        var alpha = 0.08 + 0.08 * ((i % 3) + 1) / 3;
+        ctx.strokeStyle = 'rgba(' + MAROON + ',' + alpha.toFixed(3) + ')';
+        ctx.beginPath();
+        for (var x = -20; x <= w + 20; x += 14) {
+          var y = base +
+            amp1 * Math.sin(x * 0.0042 + t * 0.5 + i * 1.9) +
+            amp2 * Math.sin(x * 0.011 - t * 0.32 + i * 0.7);
+          if (x === -20) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    var running = false, inView = true, raf = null, last = 0;
+    var FRAME = 1000 / 30;
+
+    function loop(now) {
+      raf = null;
+      if (!running) return;
+      if (now - last >= FRAME) {
+        last = now;
+        t += 0.016;
+        draw();
+      }
+      raf = window.requestAnimationFrame(loop);
+    }
+
+    function setRunning(on) {
+      on = on && inView && !document.hidden;
+      if (on === running) return;
+      running = on;
+      if (running && !raf) raf = window.requestAnimationFrame(loop);
+    }
+
+    new IntersectionObserver(function (e) {
+      inView = e[0].isIntersecting;
+      setRunning(true);
+    }).observe(layer);
+
+    document.addEventListener('visibilitychange', function () { setRunning(true); });
+
+    var resizeRaf = null;
+    window.addEventListener('resize', function () {
+      if (resizeRaf) return;
+      resizeRaf = window.requestAnimationFrame(function () {
+        resizeRaf = null;
+        resize();
+        draw();
+      });
+    });
+
+    resize();
+    draw();
+    setRunning(true);
+  }
+
+  /* ------------------------------------------------------------------
+   * 13. Odds and ends
    * ---------------------------------------------------------------- */
   function initYear() {
     document.querySelectorAll('[data-year]').forEach(function (el) {
@@ -441,6 +535,7 @@
     initTabs();
     initAccordions();
     initForm();
+    initMotionBg();
     initYear();
   }
 

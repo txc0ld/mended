@@ -155,7 +155,15 @@
     <div class="mt-auto pt-8"><a class="btn btn-brand btn-lg w-full" href="contact.html">Book a call</a></div>
   </nav>
   <main id="main">
-    <section class="sec min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
+    <section class="sec hero-stage min-h-[calc(100dvh-72px)] flex items-center overflow-hidden" aria-labelledby="home-heading">
+      <!-- Animated background: slow maroon flow lines drawn on a canvas by
+           site.js. Bespoke rather than an embedded scene so the colour is the
+           exact brand token and the motion is deterministic. Only runs on
+           fine-pointer desktops, never under prefers-reduced-motion, and
+           pauses whenever the hero is off screen or the tab is hidden. -->
+      <div class="hero-motion" aria-hidden="true">
+        <canvas class="hero-motion__canvas" data-waves></canvas>
+      </div>
       <div class="wrap hero-split relative py-8 min-[900px]:grid min-[900px]:grid-cols-12 min-[900px]:items-center min-[900px]:gap-8 min-[900px]:py-12">
         <div class="max-w-[1100px] relative z-[1] min-[900px]:col-span-7">
           <div class="badge reveal">Working across Australia, Bali and Singapore</div>

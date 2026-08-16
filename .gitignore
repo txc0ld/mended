@@ -13,3 +13,6 @@ desktop.ini
 # Tooling
 node_modules/
 .vercel
+
+# Reference material, not part of the deployed site
+assets/*.tsx
