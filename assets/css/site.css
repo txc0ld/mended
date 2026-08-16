@@ -194,11 +194,10 @@ img { display: block; max-width: 100%; }
 
 .hero-motion__canvas { width: 100%; height: 100%; display: block; }
 
+/* Always displayed. Under prefers-reduced-motion site.js renders exactly one
+   still frame and never starts the loop, so the artwork shows but nothing
+   moves. If WebGL is unavailable the canvas stays empty over the dark stage. */
 .js .hero-motion { display: block; }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-motion { display: none !important; }
-}
 
 .t-sec {
   font-size: clamp(2rem, 4.6vw, 3.75rem);

@@ -435,7 +435,9 @@
     var layer = document.querySelector('.hero-motion');
     var canvas = layer && layer.querySelector('[data-aurora]');
     if (!layer || !canvas) return;
-    if (reduce) return;
+    // Under prefers-reduced-motion the setup still runs, but exactly one
+    // frame is rendered and the loop never starts: the artwork shows, and
+    // nothing on the page moves. See the bottom of this function.
     if (getComputedStyle(layer).display === 'none') return;
 
     var gl = canvas.getContext('webgl', { antialias: true });
@@ -446,7 +448,11 @@
       'void main(){vUv=position*0.5+0.5;gl_Position=vec4(position,0.0,1.0);}';
 
     var FRAG =
-      'precision highp float;varying vec2 vUv;' +
+      // highp is not guaranteed in fragment shaders on mobile GLES2; without
+      // this guard the shader fails to compile on many Android GPUs and the
+      // hero silently stays flat.
+      '#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n' +
+      'varying vec2 vUv;' +
       'uniform vec2 u_resolution;uniform float u_time;uniform float u_grain;uniform vec3 u_colors[3];' +
       'vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}' +
       'vec2 mod289(vec2 x){return x-floor(x*(1.0/289.0))*289.0;}' +
@@ -482,12 +488,17 @@
       var s = gl.createShader(type);
       gl.shaderSource(s, src);
       gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) return null;
       return s;
     }
 
+    var vs = shader(gl.VERTEX_SHADER, VERT);
+    var fs = shader(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+
     var program = gl.createProgram();
-    gl.attachShader(program, shader(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(program, shader(gl.FRAGMENT_SHADER, FRAG));
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
     gl.useProgram(program);
@@ -558,7 +569,9 @@
     }
 
     function setRunning(on) {
-      on = on && inView && !document.hidden && !lost;
+      // reduce is a hard stop: the observers below still fire, but they can
+      // never start the loop for a reduced-motion user.
+      on = on && inView && !document.hidden && !lost && !reduce;
       if (on === running) return;
       running = on;
       if (running && !raf) raf = window.requestAnimationFrame(loop);
@@ -577,11 +590,16 @@
       resizeRaf = window.requestAnimationFrame(function () {
         resizeRaf = null;
         resize();
-        if (!running) draw(performance.now());
+        if (!running) draw(reduce ? 40000 : performance.now());
       });
     }).observe(layer);
 
     resize();
+    if (reduce) {
+      // one still frame at a fixed time, chosen for a good composition
+      draw(40000);
+      return;
+    }
     draw(performance.now());
     setRunning(true);
   }
